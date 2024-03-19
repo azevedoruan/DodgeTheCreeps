@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://cx2ltcncghsm6"]
+
+[ext_resource type="Texture2D" uid="uid://dqypq2y04y8qh" path="res://art/enemyFollower_1.png" id="1_5fx6x"]
+[ext_resource type="Script" path="res://scripts/MobFollower.gd" id="1_t2kwg"]
+[ext_resource type="Texture2D" uid="uid://dxl6lmfnds4a3" path="res://art/enemyFollower_2.png" id="2_oxng2"]
+[ext_resource type="Texture2D" uid="uid://cuk32e77kye8f" path="res://art/enemyFollower_eye.png" id="3_wg8u6"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p2ajc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_5fx6x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_oxng2")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 3.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bhoum"]
+radius = 21.0238
+
+[node name="MobFollower" type="CharacterBody2D" groups=["mobs"]]
+collision_mask = 0
+script = ExtResource("1_t2kwg")
+speed = 120.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_p2ajc")
+animation = &"walk"
+frame_progress = 0.133196
+
+[node name="Eye" type="Sprite2D" parent="."]
+position = Vector2(11, 1)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_wg8u6")
+offset = Vector2(-11, -1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(9, 0)
+shape = SubResource("CircleShape2D_bhoum")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(0, 0.499998)
+scale = Vector2(3.6, 3.95)
+
+[connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]

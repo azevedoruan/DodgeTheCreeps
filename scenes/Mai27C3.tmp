@@ -1,0 +1,73 @@
+[gd_scene load_steps=14 format=3 uid="uid://dbe62th8b3h7r"]
+
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1_ejntv"]
+[ext_resource type="PackedScene" uid="uid://q3j7juu1j22q" path="res://scenes/Mob.tscn" id="2_gb1yj"]
+[ext_resource type="PackedScene" uid="uid://bylfbpe4t2bj8" path="res://scenes/Player.tscn" id="3_4njg7"]
+[ext_resource type="PackedScene" uid="uid://b8faj1rq2wdga" path="res://scenes/MobFlash.tscn" id="3_tmxv5"]
+[ext_resource type="PackedScene" uid="uid://dle44wdvem7or" path="res://scenes/HUD.tscn" id="4_44pns"]
+[ext_resource type="Script" path="res://scripts/MobSpawnerHandler.gd" id="4_fysth"]
+[ext_resource type="AudioStream" uid="uid://dsry722qdrql3" path="res://art/House In a Forest Loop.ogg" id="5_1ima1"]
+[ext_resource type="PackedScene" uid="uid://bqiobo4vyvq43" path="res://scenes/MobExplode.tscn" id="6_h6wtk"]
+[ext_resource type="AudioStream" uid="uid://cy0o26sdwqpdh" path="res://art/gameover.wav" id="6_mgqgs"]
+[ext_resource type="Script" path="res://scripts/JoyStickHandler.gd" id="7_hdq0m"]
+[ext_resource type="PackedScene" uid="uid://dghp2gncrgobu" path="res://scenes/JoyStick.tscn" id="8_5lhya"]
+[ext_resource type="PackedScene" uid="uid://c65oao5sntvso" path="res://scenes/MobObstacle.tscn" id="11_x82qk"]
+[ext_resource type="PackedScene" uid="uid://cx2ltcncghsm6" path="res://scenes/MobFollower.tscn" id="12_w6318"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_ejntv")
+mob = ExtResource("2_gb1yj")
+mob_flash = ExtResource("3_tmxv5")
+mob_obstacle = ExtResource("11_x82qk")
+mob_follower = ExtResource("12_w6318")
+mob_explode = ExtResource("6_h6wtk")
+metadata/_edit_vertical_guides_ = [-271.0]
+
+[node name="MobSpawnerHandler" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("4_fysth")
+player = NodePath("../Player")
+spawn_position_offset = -30.0
+
+[node name="JoyStickHandler" type="Node" parent="."]
+script = ExtResource("7_hdq0m")
+joy_stick = ExtResource("8_5lhya")
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.101961, 0.454902, 0.470588, 1)
+
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(202, 450)
+
+[node name="Player" parent="." node_paths=PackedStringArray("joystick_handler") instance=ExtResource("3_4njg7")]
+position = Vector2(202, 450)
+joystick_handler = NodePath("../JoyStickHandler")
+
+[node name="HUD" parent="." instance=ExtResource("4_44pns")]
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_1ima1")
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_mgqgs")
+
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="hit" from="Player" to="." method="game_over"]
+[connection signal="hit" from="Player" to="JoyStickHandler" method="_on_player_hit"]
+[connection signal="start_game" from="HUD" to="." method="new_game"]
+[connection signal="start_game" from="HUD" to="JoyStickHandler" method="_on_hud_start_game"]

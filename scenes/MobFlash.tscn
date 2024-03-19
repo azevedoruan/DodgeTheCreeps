@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://b8faj1rq2wdga"]
+
+[ext_resource type="Script" path="res://scripts/MobFlash.gd" id="1_1krs1"]
+[ext_resource type="Texture2D" uid="uid://bogia6jq50ppv" path="res://art/enemyFlashAlt_1.png" id="2_k2njl"]
+[ext_resource type="Texture2D" uid="uid://ck3f6r5clihbk" path="res://art/enemyFlashAlt_2.png" id="3_b3fp5"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dfqg6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_k2njl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_b3fp5")
+}],
+"loop": true,
+"name": &"flash",
+"speed": 6.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l7ssy"]
+radius = 14.0
+
+[node name="MobFlash" type="RigidBody2D" groups=["mobs"]]
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_1krs1")
+speed = 480.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_dfqg6")
+animation = &"flash"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(12, 0)
+shape = SubResource("CircleShape2D_l7ssy")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+rect = Rect2(-35, -20, 70, 40)
+
+[connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]

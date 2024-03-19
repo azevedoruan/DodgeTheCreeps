@@ -1,0 +1,66 @@
+[gd_scene load_steps=11 format=3 uid="uid://c65oao5sntvso"]
+
+[ext_resource type="Script" path="res://scripts/MobObstacle.gd" id="1_gccgn"]
+[ext_resource type="Texture2D" uid="uid://b0l4bavecene7" path="res://art/enemyObstacleFreezing_frame1.png" id="1_m8kdl"]
+[ext_resource type="Texture2D" uid="uid://car7c46hmw2ul" path="res://art/enemyObstacleFreezing_frame2.png" id="2_0dxyl"]
+[ext_resource type="Texture2D" uid="uid://b4s2n80c3d7rd" path="res://art/enemyObstacleFreeze.png" id="2_ujdx1"]
+[ext_resource type="Texture2D" uid="uid://clrkibkotrccp" path="res://art/enemyObstacleFreezing_frame3.png" id="3_dy2ri"]
+[ext_resource type="Texture2D" uid="uid://c8dq7yjq0immp" path="res://art/enemyObstacleFreezing_frame4.png" id="4_3chnp"]
+[ext_resource type="Texture2D" uid="uid://bv3udjxpkwlpl" path="res://art/enemyObstacle_frame1.png" id="5_2ppab"]
+[ext_resource type="Texture2D" uid="uid://5jtpafsa8upp" path="res://art/enemyObstacle_frame2.png" id="6_qya1c"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_282c8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_m8kdl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_0dxyl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_dy2ri")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_3chnp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ujdx1")
+}],
+"loop": false,
+"name": &"freezing",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_2ppab")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_qya1c")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 2.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_edfig"]
+size = Vector2(72, 75)
+
+[node name="MobObstacle" type="RigidBody2D" groups=["mobs"]]
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_gccgn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_282c8")
+animation = &"freezing"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(10, 0)
+shape = SubResource("RectangleShape2D_edfig")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 8.0
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

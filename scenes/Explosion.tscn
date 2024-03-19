@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=3 uid="uid://186ly24olgpo"]
+
+[ext_resource type="Script" path="res://scripts/Explosion.gd" id="1_tu730"]
+[ext_resource type="Texture2D" uid="uid://dvpl3fdrkyejg" path="res://art/explosion.png" id="2_t1vlw"]
+[ext_resource type="Texture2D" uid="uid://cfftthudjlcxh" path="res://art/AnalogStick_small.png" id="3_wk5ph"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_50cy7"]
+radius = 238.0
+
+[sub_resource type="Curve" id="Curve_l076r"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.5), -1.77895, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_enabled = true
+
+[sub_resource type="CurveTexture" id="CurveTexture_wikcl"]
+curve = SubResource("Curve_l076r")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_j3nxh"]
+lifetime_randomness = 0.1
+emission_shape = 2
+emission_sphere_radius = 90.0
+particle_flag_disable_z = true
+direction = Vector3(1, 1, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_max = 20.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.01
+scale_min = 0.1
+scale_max = 0.2
+scale_curve = SubResource("CurveTexture_wikcl")
+turbulence_noise_strength = 7.84
+
+[node name="Explosion" type="Node2D"]
+script = ExtResource("1_tu730")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_t1vlw")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_50cy7")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+scale = Vector2(2, 2)
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_j3nxh")
+texture = ExtResource("3_wk5ph")
+lifetime = 2.0
+preprocess = 1.0
+speed_scale = 2.5
+explosiveness = 1.0
+randomness = 0.75
+visibility_rect = Rect2(-110, -110, 220, 220)
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_body_entered"]

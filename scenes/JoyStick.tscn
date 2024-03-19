@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dghp2gncrgobu"]
+
+[ext_resource type="Texture2D" uid="uid://ciwr2hhlaoti4" path="res://art/AnalogStick_big.png" id="1_2ax7j"]
+[ext_resource type="Texture2D" uid="uid://cfftthudjlcxh" path="res://art/AnalogStick_small.png" id="2_rui2e"]
+
+[node name="JoyStick" type="Node2D"]
+
+[node name="Base" type="Sprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.27451)
+texture = ExtResource("1_2ax7j")
+
+[node name="Stick" type="Sprite2D" parent="Base"]
+texture = ExtResource("2_rui2e")
