@@ -5,20 +5,14 @@ class_name Main
 @onready var mob_spawner: MobSpawner = $MobSpawner
 @onready var mob_spawn_position_handler: MobSpawnPositionHandler = $MobSpawnPositionHandler
 
-@export var mob: PackedScene
-@export var mob_flash: PackedScene
-@export var mob_obstacle: PackedScene
-@export var mob_follower: PackedScene
-@export var mob_explode: PackedScene
 @export var mob_timer_decrescent_time: int = 10
 
 var score: int = 0
 var spawn_count: int = 0
 var event_count: int = 0
-
 var is_time_scaled: bool = false
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("time_scale"):
 		if is_time_scaled == false:
 			Engine.set_time_scale(3.0)
@@ -73,32 +67,27 @@ func _on_mob_timer_timeout():
 	
 	# mobs comuns abaixo de 10 pontos
 	if score < 10:
-		#$MobSpawnerHandler.spawn_vertical(mob_flash)
+		mob_spawner.spawn_random_common_mob(mob_spawn_position_handler.get_vertical_random_position(), player)
 		return
 	
 	# mob flash a partir de 20 pontos e 9 spawns
 	if spawn_count > 8 and (spawn_count % 9) == 0:
-		var mob_instance = mob_flash.instantiate()
-		var positions: Positions = mob_spawn_position_handler.get_vertical_random_position()
-		var mob_direction: float = positions.mob_position.angle_to_point(player.position)
-		mob_instance.set_position(positions.mob_position)
-		mob_instance.set_rotation(mob_direction)
-		mob_spawner.spawn_mob(mob_instance, positions.shadow_positon)
+		mob_spawner.spawn_mob_flash(mob_spawn_position_handler.get_vertical_random_position(), player.position)
 		return
 	
 	# mob follower a partir 40 pontos e 28 spawns
 	if spawn_count > 27 and (spawn_count % 7) == 0:
-		$MobSpawnerHandler.spawn_vertical(mob_follower)
+		mob_spawner.spawn_mob_follower(mob_spawn_position_handler.get_vertical_random_position(), player)
 		return
 	
 	# mob obstacle a partir de 60 pontos e 40 spawns
 	if spawn_count > 39 and (spawn_count % 5) == 0:
-		$MobSpawnerHandler.spawn_horizontal(mob_obstacle)
+		# TODO $MobSpawnerHandler.spawn_horizontal(mob_obstacle)
 		return
 	
 	# mob explode a partir de 70 pontos e 55 spawns
 	if spawn_count > 54 and (spawn_count % 11) == 0:
-		$MobSpawnerHandler.spawn_horizontal(mob_explode)
+		# TODO $MobSpawnerHandler.spawn_horizontal(mob_explode)
 		return
 	
 	# eventos a partir de 80 pontos e 77 spawns
@@ -111,11 +100,9 @@ func _on_mob_timer_timeout():
 	
 	# mobs comuns acima de 10 pontos
 	if randf() < 0.5:
-		pass
-		#$MobSpawnerHandler.spawn_horizontal(mob)
+		mob_spawner.spawn_random_common_mob(mob_spawn_position_handler.get_horizontal_random_position(), player)
 	else:
-		pass
-		#$MobSpawnerHandler.spawn_vertical(mob)
+		mob_spawner.spawn_random_common_mob(mob_spawn_position_handler.get_vertical_random_position(), player)
 
 
 func start_events() -> void:
@@ -143,15 +130,15 @@ func start_events() -> void:
 func first_event() -> void:
 	print("inicia primeiro evento")
 	var tween: Tween = get_tree().create_tween()
-	tween.tween_callback(func():
-		$MobSpawnerHandler.spawn_custom_horizontal(mob, "left", 30, 0)
-		$MobSpawnerHandler.spawn_custom_horizontal(mob, "left", 150, 0)
-		$MobSpawnerHandler.spawn_custom_horizontal(mob, "left", 270, 0)
-		$MobSpawnerHandler.spawn_custom_horizontal(mob, "left", 390, 0)
-		$MobSpawnerHandler.spawn_custom_horizontal(mob, "right", 330, 180)
-		$MobSpawnerHandler.spawn_custom_horizontal(mob, "right", 450, 180)
-		$MobSpawnerHandler.spawn_custom_horizontal(mob, "right", 570, 180)
-		$MobSpawnerHandler.spawn_custom_horizontal(mob, "right", 690, 180))
+	#tween.tween_callback(func():
+		#$MobSpawnerHandler.spawn_custom_horizontal(mob, "left", 30, 0)
+		#$MobSpawnerHandler.spawn_custom_horizontal(mob, "left", 150, 0)
+		#$MobSpawnerHandler.spawn_custom_horizontal(mob, "left", 270, 0)
+		#$MobSpawnerHandler.spawn_custom_horizontal(mob, "left", 390, 0)
+		#$MobSpawnerHandler.spawn_custom_horizontal(mob, "right", 330, 180)
+		#$MobSpawnerHandler.spawn_custom_horizontal(mob, "right", 450, 180)
+		#$MobSpawnerHandler.spawn_custom_horizontal(mob, "right", 570, 180)
+		#$MobSpawnerHandler.spawn_custom_horizontal(mob, "right", 690, 180))
 	tween.tween_interval(5.0)
 	tween.tween_callback(func(): $MobTimer.start())
 
@@ -162,7 +149,7 @@ func second_event() -> void:
 	
 	# 1º primeira seção (mais fácil)
 	while count > 0:
-		tween.tween_callback(func(): $MobSpawnerHandler.spawn_vertical(mob_flash))
+		#tween.tween_callback(func(): $MobSpawnerHandler.spawn_vertical(mob_flash))
 		tween.tween_interval(1.0)
 		count -= 1
 	
@@ -171,9 +158,9 @@ func second_event() -> void:
 	
 	# 2º seção (mais dificil)
 	while count > 0:
-		tween.tween_callback(func():
-			$MobSpawnerHandler.spawn_vertical(mob_flash)
-			$MobSpawnerHandler.spawn_horizontal(mob_flash))
+		#tween.tween_callback(func():
+		#	$MobSpawnerHandler.spawn_vertical(mob_flash)
+		#	$MobSpawnerHandler.spawn_horizontal(mob_flash))
 		tween.tween_interval(1.0)
 		count -= 1
 	
@@ -182,10 +169,10 @@ func second_event() -> void:
 
 func third_event() -> void:
 	var tween: Tween = get_tree().create_tween()
-	tween.tween_callback(func():
-		$MobSpawnerHandler.spawn_custom_horizontal(mob_obstacle, "left", 105, 0)
-		$MobSpawnerHandler.spawn_custom_horizontal(mob_obstacle, "left", 355, 0)
-		$MobSpawnerHandler.spawn_custom_horizontal(mob_obstacle, "left", 605, 0))
+	#tween.tween_callback(func():
+	#	$MobSpawnerHandler.spawn_custom_horizontal(mob_obstacle, "left", 105, 0)
+	#	$MobSpawnerHandler.spawn_custom_horizontal(mob_obstacle, "left", 355, 0)
+	#	$MobSpawnerHandler.spawn_custom_horizontal(mob_obstacle, "left", 605, 0))
 	tween.tween_interval(5.0)
 	tween.tween_callback(func(): $MobTimer.start())
 
