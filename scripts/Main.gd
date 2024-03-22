@@ -82,12 +82,12 @@ func _on_mob_timer_timeout():
 	
 	# mob obstacle a partir de 60 pontos e 40 spawns
 	if spawn_count > 39 and (spawn_count % 5) == 0:
-		# TODO $MobSpawnerHandler.spawn_horizontal(mob_obstacle)
+		mob_spawner.spawn_mob_obstacle(mob_spawn_position_handler.get_horizontal_random_position())
 		return
 	
 	# mob explode a partir de 70 pontos e 55 spawns
 	if spawn_count > 54 and (spawn_count % 11) == 0:
-		# TODO $MobSpawnerHandler.spawn_horizontal(mob_explode)
+		mob_spawner.spawn_mob_explode(mob_spawn_position_handler.get_horizontal_random_position())
 		return
 	
 	# eventos a partir de 80 pontos e 77 spawns

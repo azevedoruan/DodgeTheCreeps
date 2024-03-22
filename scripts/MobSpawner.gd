@@ -6,6 +6,8 @@ class_name MobSpawner
 @export var mob_common: PackedScene
 @export var mob_flash: PackedScene
 @export var mob_follower: PackedScene
+@export var mob_obstacle: PackedScene
+@export var mob_explode: PackedScene
 
 
 func spawn_random_common_mob(positions: Positions, player: Player) -> void:
@@ -35,6 +37,18 @@ func spawn_mob_follower(positions: Positions, player: Player) -> void:
 	mob_instance.set_position(positions.mob_position)
 	mob_instance.set_current_direction(positions.mob_position.angle_to_point(player.position))
 	mob_instance.set_player(player)
+	_spawn_mob(mob_instance, positions.shadow_positon)
+
+
+func spawn_mob_obstacle(positions: Positions) -> void:
+	var mob_instance: Node2D = mob_obstacle.instantiate() as Node2D
+	mob_instance.set_position(positions.mob_position)
+	_spawn_mob(mob_instance, positions.shadow_positon)
+
+
+func spawn_mob_explode(positions: Positions) -> void:
+	var mob_instance: Node2D = mob_explode.instantiate() as Node2D
+	mob_instance.set_position(positions.mob_position)
 	_spawn_mob(mob_instance, positions.shadow_positon)
 
 
