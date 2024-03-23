@@ -67,7 +67,7 @@ func _on_mob_timer_timeout():
 	
 	# mobs comuns abaixo de 10 pontos
 	if score < 10:
-		mob_spawner.spawn_random_common_mob(mob_spawn_position_handler.get_vertical_random_position(), player)
+		mob_spawner.spawn_random_mob_common(mob_spawn_position_handler.get_vertical_random_position(), player)
 		return
 	
 	# mob flash a partir de 20 pontos e 9 spawns
@@ -100,9 +100,9 @@ func _on_mob_timer_timeout():
 	
 	# mobs comuns acima de 10 pontos
 	if randf() < 0.5:
-		mob_spawner.spawn_random_common_mob(mob_spawn_position_handler.get_horizontal_random_position(), player)
+		mob_spawner.spawn_random_mob_common(mob_spawn_position_handler.get_horizontal_random_position(), player)
 	else:
-		mob_spawner.spawn_random_common_mob(mob_spawn_position_handler.get_vertical_random_position(), player)
+		mob_spawner.spawn_random_mob_common(mob_spawn_position_handler.get_vertical_random_position(), player)
 
 
 func start_events() -> void:
@@ -130,15 +130,24 @@ func start_events() -> void:
 func first_event() -> void:
 	print("inicia primeiro evento")
 	var tween: Tween = get_tree().create_tween()
-	#tween.tween_callback(func():
-		#$MobSpawnerHandler.spawn_custom_horizontal(mob, "left", 30, 0)
-		#$MobSpawnerHandler.spawn_custom_horizontal(mob, "left", 150, 0)
-		#$MobSpawnerHandler.spawn_custom_horizontal(mob, "left", 270, 0)
-		#$MobSpawnerHandler.spawn_custom_horizontal(mob, "left", 390, 0)
-		#$MobSpawnerHandler.spawn_custom_horizontal(mob, "right", 330, 180)
-		#$MobSpawnerHandler.spawn_custom_horizontal(mob, "right", 450, 180)
-		#$MobSpawnerHandler.spawn_custom_horizontal(mob, "right", 570, 180)
-		#$MobSpawnerHandler.spawn_custom_horizontal(mob, "right", 690, 180))
+	tween.tween_callback(func():
+		var positions: Positions = mob_spawn_position_handler.get_horizontal_positions("left", 30)
+		mob_spawner.spawn_mob_common(positions, 0, Vector2(130, 0), "walk")
+		positions.set_y(150)
+		mob_spawner.spawn_mob_common(positions, 0, Vector2(130, 0), "walk")
+		positions.set_y(270)
+		mob_spawner.spawn_mob_common(positions, 0, Vector2(130, 0), "walk")
+		positions.set_y(390)
+		mob_spawner.spawn_mob_common(positions, 0, Vector2(130, 0), "walk")
+		
+		positions = mob_spawn_position_handler.get_horizontal_positions("right", 330)
+		mob_spawner.spawn_mob_common(positions, 180, Vector2(130, 0), "walk")
+		positions.set_y(450)
+		mob_spawner.spawn_mob_common(positions, 180, Vector2(130, 0), "walk")
+		positions.set_y(570)
+		mob_spawner.spawn_mob_common(positions, 180, Vector2(130, 0), "walk")
+		positions.set_y(690)
+		mob_spawner.spawn_mob_common(positions, 180, Vector2(130, 0), "walk"))
 	tween.tween_interval(5.0)
 	tween.tween_callback(func(): $MobTimer.start())
 
@@ -149,7 +158,7 @@ func second_event() -> void:
 	
 	# 1º primeira seção (mais fácil)
 	while count > 0:
-		#tween.tween_callback(func(): $MobSpawnerHandler.spawn_vertical(mob_flash))
+		tween.tween_callback(func(): mob_spawner.spawn_mob_flash(mob_spawn_position_handler.get_vertical_random_position(), player.position))
 		tween.tween_interval(1.0)
 		count -= 1
 	
@@ -158,9 +167,9 @@ func second_event() -> void:
 	
 	# 2º seção (mais dificil)
 	while count > 0:
-		#tween.tween_callback(func():
-		#	$MobSpawnerHandler.spawn_vertical(mob_flash)
-		#	$MobSpawnerHandler.spawn_horizontal(mob_flash))
+		tween.tween_callback(func():
+			mob_spawner.spawn_mob_flash(mob_spawn_position_handler.get_vertical_random_position(), player.position)
+			mob_spawner.spawn_mob_flash(mob_spawn_position_handler.get_horizontal_random_position(), player.position))
 		tween.tween_interval(1.0)
 		count -= 1
 	

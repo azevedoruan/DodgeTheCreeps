@@ -10,7 +10,7 @@ class_name MobSpawner
 @export var mob_explode: PackedScene
 
 
-func spawn_random_common_mob(positions: Positions, player: Player) -> void:
+func spawn_random_mob_common(positions: Positions, player: Player) -> void:
 	var mob_instance: MobCommon = mob_common.instantiate() as MobCommon
 	mob_instance.set_default_behaviour(positions.mob_position, player)
 	_spawn_mob(mob_instance, positions.shadow_positon)
@@ -19,7 +19,7 @@ func spawn_random_common_mob(positions: Positions, player: Player) -> void:
 func spawn_mob_common(positions: Positions, direction: float, velocity: Vector2, animation_name: String) -> void:
 	var mob_instance: MobCommon = mob_common.instantiate() as MobCommon
 	mob_instance.set_position(positions.mob_position)
-	mob_instance.set_rotation(direction)
+	mob_instance.set_rotation(deg_to_rad(direction))
 	mob_instance.set_animation_name(animation_name)
 	mob_instance.set_velocity(velocity)
 	_spawn_mob(mob_instance, positions.shadow_positon)
