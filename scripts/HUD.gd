@@ -3,7 +3,9 @@ extends Node
 signal start_game
 
 @onready var hud_pivot = $Pivot
-@onready var statistics = $Pivot/Statistics
+@onready var debug_log: Control = $Pivot/DebugLog
+@onready var developer_control: Control = $DeveloperControl
+@onready var statistics = $Pivot/DebugLog/Statistics
 
 func _ready():
 	var hud_size = Vector2(get_tree().root.content_scale_size)
@@ -18,19 +20,33 @@ func _ready():
 	
 	hud_pivot.set_position(new_hud_pos)
 	hud_pivot.set_size(new_hud_size)
+	
+	#TEST for dev configurations
+	debug_log.hide()
+	developer_control.hide()
+	MyUtility.print_message_log("root size: " + str(get_tree().root.size))
+	MyUtility.print_message_log("viewport size: " + str(get_viewport().size))
+	MyUtility.print_message_log("window size: " + str(get_window().size))
+	MyUtility.print_message_log("content scale size: " + str(get_tree().root.content_scale_size))
+	MyUtility.print_message_log("window scaled size: " + str(MyUtility.get_window_scaled()))
 
-func _process(delta):
+
+func _process(_delta):
 	var viewport_size = get_tree().root.size
 	statistics.clear()
 	statistics.add_text("Viewport size: %dx%d\n\n" % [viewport_size.x, viewport_size.y])
 	statistics.add_text("FPS: %d\n" % Performance.get_monitor(Performance.TIME_FPS))
 	statistics.add_text("CPU time: %.5f\n" % Performance.get_monitor(Performance.TIME_PROCESS))
 	statistics.add_text("Node count: %d\n" % Performance.get_monitor(Performance.OBJECT_NODE_COUNT))
+	var player_pos: Vector2 = get_parent().player.position
+	statistics.add_text("player pos: %.1f, %.1f\n" % [player_pos.x, player_pos.y])
+
 
 func show_message(text):
 	$Pivot/Message.text = text
 	$Pivot/Message.show()
 	$MessageTimer.start()
+
 
 func show_game_over():
 	show_message("Game Over")
@@ -44,20 +60,61 @@ func show_game_over():
 	
 	$Pivot/StartButton.show()
 
+
+func update_time(time: int) -> void:
+	var sec: int = time % 60
+	var min: int = int(time / 60)
+	var time_str: String = "%02d:%02d" % [min, sec]
+	$Pivot/TimeLabel.text = time_str
+
+
 func update_score(score):
 	$Pivot/ScoreLabel.text = str(score)
 
+
 func _on_message_timer_timeout():
 	$Pivot/Message.hide()
+
 
 func _on_start_button_pressed():
 	$Pivot/StartButton.hide()
 	start_game.emit()
 
+#TEST for dev configurations
 func _on_stats_button_down():
-	if !statistics.visible:
-		statistics.show()
+	if !debug_log.visible:
+		debug_log.show()
+		developer_control.show()
 		set_process(true)
 	else:
-		statistics.hide()
+		debug_log.hide()
+		developer_control.hide()
 		set_process(false)
+
+#TEST for dev configurations
+func _on_imortal_mode_button_toggled(toggled_on: bool) -> void:
+	get_parent().player.is_immortal = toggled_on
+	if toggled_on:
+		MyUtility.print_message_log("player is immortal")
+	else:
+		MyUtility.print_message_log("player can be die")
+
+#TEST for dev configurations
+func _on_time_accelerate_button_toggled(toggled_on: bool) -> void:
+	get_parent().time_scale(toggled_on)
+
+
+func _on_event_1_button_pressed() -> void:
+	get_parent().first_event()
+
+
+func _on_event_1_button_2_pressed() -> void:
+	get_parent().second_event()
+
+
+func _on_event_1_button_3_pressed() -> void:
+	get_parent().third_event()
+
+
+func _on_event_1_button_4_pressed() -> void:
+	get_parent().fourth_event()

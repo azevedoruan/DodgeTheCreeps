@@ -1,5 +1,5 @@
-class_name JoyStickHandler
 extends Node
+class_name JoyStickHandler
 
 @export var joy_stick: PackedScene
 
@@ -9,7 +9,9 @@ var stick: Sprite2D
 var distance: float
 var direction: Vector2
 
-const RADIUS := 30
+const STICK_DISTANCE_LIMIT_RADIUS: float = 30.0
+const JOYSTICK_DISTANCE_LIMIT_RADIUS: float = 65.0
+
 
 func _ready():
 	# desabilita os processos de input (esses eventos só devem ser habilitados quando o gameplay iniciar)
@@ -42,10 +44,14 @@ func _input(event):
 		distance = (joy_stick_instance.position).distance_to(event.position)
 		direction = (event.position - joy_stick_instance.position).normalized()
 		
-		if distance > RADIUS:
-			distance = RADIUS
+		# joystick se move na direção do toque quando a distancia deste for muito longa
+		if distance > JOYSTICK_DISTANCE_LIMIT_RADIUS:
+			joy_stick_instance.position += direction * (distance - JOYSTICK_DISTANCE_LIMIT_RADIUS)
 		
-		# posiciona o stick dentro dos limites da base
+		# limita a distancia para manter o stick dentro da base
+		if distance > STICK_DISTANCE_LIMIT_RADIUS:
+			distance = STICK_DISTANCE_LIMIT_RADIUS
+		
 		stick.position = distance * direction
 
 

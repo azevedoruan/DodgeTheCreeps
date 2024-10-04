@@ -16,6 +16,7 @@ var _animation_name: String = "walk"
 func set_velocity(velocity: Vector2) -> void:
 	_velocity = velocity.rotated(rotation)
 
+
 func set_animation_name(anim_name: String) -> void:
 	_animation_name = anim_name
 

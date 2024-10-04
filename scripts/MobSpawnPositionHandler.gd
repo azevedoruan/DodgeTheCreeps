@@ -9,7 +9,7 @@ var _axis_y_top: float
 var _axis_y_bottom: float
 
 
-func _ready():
+func _ready() -> void:
 	# prepara as posições do spawn
 	var root = get_tree().root
 	_axis_x_left = 0

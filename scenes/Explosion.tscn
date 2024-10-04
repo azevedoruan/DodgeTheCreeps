@@ -17,27 +17,26 @@ curve = SubResource("Curve_l076r")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_j3nxh"]
 lifetime_randomness = 0.1
+particle_flag_disable_z = true
 emission_shape = 2
 emission_sphere_radius = 90.0
-particle_flag_disable_z = true
 direction = Vector3(1, 1, 0)
 spread = 180.0
-gravity = Vector3(0, 0, 0)
 initial_velocity_max = 20.0
-orbit_velocity_min = 0.0
 orbit_velocity_max = 0.01
+gravity = Vector3(0, 0, 0)
 scale_min = 0.1
 scale_max = 0.2
 scale_curve = SubResource("CurveTexture_wikcl")
 turbulence_noise_strength = 7.84
 
-[node name="Explosion" type="Node2D"]
+[node name="Explosion" type="Node2D" groups=["explosion"]]
 script = ExtResource("1_tu730")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_t1vlw")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["explosion"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_50cy7")

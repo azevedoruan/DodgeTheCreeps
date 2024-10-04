@@ -6,18 +6,17 @@ signal hit
 @export var joystick_handler: JoyStickHandler
 @export var is_immortal: bool = false
 
-var screen_size # size of the game window
+var screen_size
 
 const SPEED: float = 9.2
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	screen_size = get_viewport_rect().size
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _process(delta):
-	#var velocity = _move_by_keyboard() * 30
-	var velocity = joystick_handler.direction * joystick_handler.distance
+	var velocity: Vector2 = joystick_handler.direction * joystick_handler.distance
 	
 	if velocity.length() > 0:
 		$AnimatedSprite2D.play()
@@ -35,6 +34,7 @@ func _process(delta):
 		$AnimatedSprite2D.animation = "up"
 		$AnimatedSprite2D.flip_v = true if velocity.y > 0 else false
 
+
 func _move_by_keyboard():
 	var velocity = Vector2.ZERO
 	if Input.is_action_pressed("move_right"):
@@ -47,21 +47,25 @@ func _move_by_keyboard():
 		velocity.y += 1
 	return velocity
 
-# mob hit
-func _on_body_entered(body):
+
+# explosion hit
+func _on_area_entered(_area):
 	if is_immortal == false:
 		hide()
 		hit.emit()
 		$CollisionShape2D.set_deferred("disabled", true)
 
-# explosion hit
-func _on_area_entered(area):
-	if is_immortal == false:
-		hide()
-		hit.emit()
-		$CollisionShape2D.set_deferred("disabled", true)
 
 func start(pos):
 	position = pos
 	show()
 	$CollisionShape2D.disabled = false
+
+
+func _on_body_shape_entered(_body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int) -> void:
+	if body:
+		if body.is_in_group("mobs"):
+			if is_immortal == false:
+				hide()
+				hit.emit()
+				$CollisionShape2D.set_deferred("disabled", true)

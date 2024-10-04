@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmaxcqroakjfs"]
+
+[ext_resource type="Texture2D" uid="uid://d0i8atvhiyyai" path="res://art/custom/Bubble.png" id="1_o581t"]
+[ext_resource type="Script" path="res://scripts/Bubble.gd" id="2_keq5s"]
+
+[node name="Bubble" type="Sprite2D" groups=["collectables"]]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_o581t")
+script = ExtResource("2_keq5s")

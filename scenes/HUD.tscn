@@ -1,7 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dle44wdvem7or"]
+[gd_scene load_steps=6 format=3 uid="uid://dle44wdvem7or"]
 
 [ext_resource type="FontFile" uid="uid://d3i0ap6awinyo" path="res://fonts/Xolonium-Regular.ttf" id="1_2b1r3"]
 [ext_resource type="Script" path="res://scripts/HUD.gd" id="1_m3o12"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_mwl3n"]
+font_size = 10
 
 [sub_resource type="InputEventAction" id="InputEventAction_08kxm"]
 action = &"start_game"
@@ -19,7 +22,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect" type="ColorRect" parent="Pivot"]
 visible = false
@@ -45,6 +47,19 @@ theme_override_font_sizes/font_size = 64
 text = "0"
 vertical_alignment = 1
 
+[node name="TimeLabel" type="Label" parent="Pivot"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -60.0
+offset_bottom = 35.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("1_2b1r3")
+theme_override_font_sizes/font_size = 24
+text = "00:00"
+vertical_alignment = 1
+
 [node name="Message" type="Label" parent="Pivot"]
 layout_mode = 1
 anchors_preset = 14
@@ -61,6 +76,46 @@ text = "Dodge the Creeps!"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
+
+[node name="DebugLog" type="Control" parent="Pivot" groups=["debug_console"]]
+layout_mode = 1
+anchors_preset = 0
+offset_right = 265.0
+offset_bottom = 300.0
+
+[node name="ColorRect" type="ColorRect" parent="Pivot/DebugLog"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.0980392)
+
+[node name="Statistics" type="RichTextLabel" parent="Pivot/DebugLog"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 83.0
+grow_horizontal = 2
+theme_override_colors/default_color = Color(1, 0.54902, 0, 1)
+theme_override_constants/line_separation = -2
+theme_override_fonts/normal_font = ExtResource("1_2b1r3")
+theme_override_font_sizes/normal_font_size = 10
+scroll_active = false
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Pivot/DebugLog"]
+layout_mode = 0
+offset_top = 83.0
+offset_right = 265.0
+offset_bottom = 300.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Pivot/DebugLog/ScrollContainer"]
+layout_mode = 2
+
+[node name="LogLabel" type="Label" parent="Pivot/DebugLog/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_mwl3n")
 
 [node name="StartButton" type="Button" parent="Pivot"]
 layout_mode = 1
@@ -86,24 +141,90 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -36.0
-offset_top = 4.0
+offset_top = 37.0
 offset_right = -4.0
-offset_bottom = 28.0
+offset_bottom = 61.0
 grow_horizontal = 0
+focus_mode = 0
 theme_override_font_sizes/font_size = 10
 text = "stats"
 
-[node name="Statistics" type="RichTextLabel" parent="Pivot"]
+[node name="DeveloperControl" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -90.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ColorRect" type="ColorRect" parent="DeveloperControl"]
 layout_mode = 1
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 205.0
-offset_bottom = 405.0
-theme_override_colors/default_color = Color(1, 0.54902, 0, 1)
-theme_override_constants/line_separation = -2
-theme_override_fonts/normal_font = ExtResource("1_2b1r3")
-theme_override_font_sizes/normal_font_size = 10
-scroll_active = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.0980392)
+
+[node name="ImortalModeButton" type="CheckButton" parent="DeveloperControl"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 1.0
+offset_right = 174.0
+offset_bottom = 33.0
+focus_mode = 0
+text = "Imortal mode"
+
+[node name="TimeAccelerateButton" type="CheckButton" parent="DeveloperControl"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -135.0
+offset_top = 1.0
+offset_right = -20.0
+offset_bottom = 33.0
+grow_horizontal = 0
+focus_mode = 0
+text = "Time 3x"
+
+[node name="Event1Button" type="Button" parent="DeveloperControl"]
+layout_mode = 0
+offset_left = 47.0
+offset_top = 37.0
+offset_right = 86.9995
+offset_bottom = 69.0
+focus_mode = 0
+text = "1"
+
+[node name="Event1Button2" type="Button" parent="DeveloperControl"]
+layout_mode = 0
+offset_left = 138.0
+offset_top = 37.0
+offset_right = 177.999
+offset_bottom = 69.0
+focus_mode = 0
+text = "2"
+
+[node name="Event1Button3" type="Button" parent="DeveloperControl"]
+layout_mode = 0
+offset_left = 228.0
+offset_top = 37.0
+offset_right = 267.999
+offset_bottom = 69.0
+focus_mode = 0
+text = "3"
+
+[node name="Event1Button4" type="Button" parent="DeveloperControl"]
+layout_mode = 0
+offset_left = 318.0
+offset_top = 37.0
+offset_right = 358.0
+offset_bottom = 69.0
+focus_mode = 0
+text = "4"
 
 [node name="MessageTimer" type="Timer" parent="."]
 wait_time = 2.0
@@ -111,4 +232,10 @@ one_shot = true
 
 [connection signal="pressed" from="Pivot/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="button_down" from="Pivot/StatsButton" to="." method="_on_stats_button_down"]
+[connection signal="toggled" from="DeveloperControl/ImortalModeButton" to="." method="_on_imortal_mode_button_toggled"]
+[connection signal="toggled" from="DeveloperControl/TimeAccelerateButton" to="." method="_on_time_accelerate_button_toggled"]
+[connection signal="pressed" from="DeveloperControl/Event1Button" to="." method="_on_event_1_button_pressed"]
+[connection signal="pressed" from="DeveloperControl/Event1Button2" to="." method="_on_event_1_button_2_pressed"]
+[connection signal="pressed" from="DeveloperControl/Event1Button3" to="." method="_on_event_1_button_3_pressed"]
+[connection signal="pressed" from="DeveloperControl/Event1Button4" to="." method="_on_event_1_button_4_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]

@@ -25,10 +25,10 @@ func spawn_mob_common(positions: Positions, direction: float, velocity: Vector2,
 	_spawn_mob(mob_instance, positions.shadow_positon)
 
 
-func spawn_mob_flash(positions: Positions, direction_point: Vector2) -> void:
+func spawn_mob_flash(positions: Positions, player_target: Player) -> void:
 	var mob_instance: Node2D = mob_flash.instantiate() as Node2D
 	mob_instance.set_position(positions.mob_position)
-	mob_instance.set_rotation(positions.mob_position.angle_to_point(direction_point))
+	mob_instance.set_player_target(player_target)
 	_spawn_mob(mob_instance, positions.shadow_positon)
 
 

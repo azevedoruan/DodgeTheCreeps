@@ -7,24 +7,37 @@ class_name Main
 
 @export var mob_timer_decrescent_time: int = 10
 
+var time: int = 0
 var score: int = 0
 var spawn_count: int = 0
 var event_count: int = 0
 var is_time_scaled: bool = false
 
+
 func _process(_delta):
 	if Input.is_action_just_pressed("time_scale"):
 		if is_time_scaled == false:
-			Engine.set_time_scale(3.0)
-			print("time scale 3.0")
-			is_time_scaled = true
+			time_scale(true)
 		else:
-			Engine.set_time_scale(1.0)
-			print("time scale 1.0")
-			is_time_scaled = false
+			time_scale(false)
+
+#TEST for dev configurations
+func time_scale(toggle: bool) -> void:
+	if toggle:
+		Engine.set_time_scale(3.0)
+		MyUtility.print_message_log("time scale 3.0")
+	else:
+		Engine.set_time_scale(1.0)
+		MyUtility.print_message_log("time scale 1.0")
+	is_time_scaled = toggle
 
 
-func game_over():
+func on_bubble_collected() -> void:
+	score += 1
+	$HUD.update_score(score)
+
+
+func _game_over() -> void:
 	$ScoreTimer.stop()
 	$MobTimer.stop()
 	$HUD.show_game_over()
@@ -34,6 +47,7 @@ func game_over():
 
 func new_game():
 	get_tree().call_group("mobs", "queue_free")
+	time = 0
 	score = 0
 	spawn_count = 0
 	mob_timer_decrescent_time = 10
@@ -42,13 +56,16 @@ func new_game():
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
 	$HUD.update_score(score)
+	$HUD.update_time(time)
 	$HUD.show_message("Get Ready")
 	$Music.play()
+	MyUtility.print_message_log("Game Started!")
+	$BubbleHandler.reset_bubbles()
 
 
 func _on_score_timer_timeout():
-	score += 1
-	$HUD.update_score(score)
+	time += 1
+	$HUD.update_time(time)
 
 
 func _on_start_timer_timeout():
@@ -61,18 +78,24 @@ func _on_mob_timer_timeout():
 	spawn_count += 1
 	
 	# decrementa o tempo de espera para o próximo spawn dos mobs
-	if score >= mob_timer_decrescent_time and score < 80:
+	if time >= mob_timer_decrescent_time and time < 80:
 		$MobTimer.wait_time -= 0.375
 		mob_timer_decrescent_time += 20
 	
 	# mobs comuns abaixo de 10 pontos
-	if score < 10:
+	if time < 10:
 		mob_spawner.spawn_random_mob_common(mob_spawn_position_handler.get_vertical_random_position(), player)
 		return
 	
+	# mobs comuns acima de 10 pontos
+	if randf() < 0.5:
+		mob_spawner.spawn_random_mob_common(mob_spawn_position_handler.get_horizontal_random_position(), player)
+	else:
+		mob_spawner.spawn_random_mob_common(mob_spawn_position_handler.get_vertical_random_position(), player)
+	
 	# mob flash a partir de 20 pontos e 9 spawns
 	if spawn_count > 8 and (spawn_count % 9) == 0:
-		mob_spawner.spawn_mob_flash(mob_spawn_position_handler.get_vertical_random_position(), player.position)
+		mob_spawner.spawn_mob_flash(mob_spawn_position_handler.get_vertical_random_position(), player)
 		return
 	
 	# mob follower a partir 40 pontos e 28 spawns
@@ -93,16 +116,10 @@ func _on_mob_timer_timeout():
 	# eventos a partir de 80 pontos e 77 spawns
 	if spawn_count > 92 and (spawn_count % 31) == 0:
 		$MobTimer.stop()
-		print("tempo de evento")
+		MyUtility.print_message_log("Tempo de evento")
 		var tween: Tween = get_tree().create_tween()
 		tween.tween_interval(7.0)
 		tween.tween_callback(start_events)
-	
-	# mobs comuns acima de 10 pontos
-	if randf() < 0.5:
-		mob_spawner.spawn_random_mob_common(mob_spawn_position_handler.get_horizontal_random_position(), player)
-	else:
-		mob_spawner.spawn_random_mob_common(mob_spawn_position_handler.get_vertical_random_position(), player)
 
 
 func start_events() -> void:
@@ -128,26 +145,41 @@ func start_events() -> void:
 
 
 func first_event() -> void:
-	print("inicia primeiro evento")
+	MyUtility.print_message_log("inicia primeiro evento")
 	var tween: Tween = get_tree().create_tween()
 	tween.tween_callback(func():
-		var positions: Positions = mob_spawn_position_handler.get_horizontal_positions("left", 30)
-		mob_spawner.spawn_mob_common(positions, 0, Vector2(130, 0), "walk")
-		positions.set_y(150)
-		mob_spawner.spawn_mob_common(positions, 0, Vector2(130, 0), "walk")
-		positions.set_y(270)
-		mob_spawner.spawn_mob_common(positions, 0, Vector2(130, 0), "walk")
-		positions.set_y(390)
-		mob_spawner.spawn_mob_common(positions, 0, Vector2(130, 0), "walk")
+		# primeira onda
+		var viewport_center_pos: int = int(MyUtility.get_window_scaled().y / 2)
 		
-		positions = mob_spawn_position_handler.get_horizontal_positions("right", 330)
-		mob_spawner.spawn_mob_common(positions, 180, Vector2(130, 0), "walk")
-		positions.set_y(450)
-		mob_spawner.spawn_mob_common(positions, 180, Vector2(130, 0), "walk")
-		positions.set_y(570)
-		mob_spawner.spawn_mob_common(positions, 180, Vector2(130, 0), "walk")
-		positions.set_y(690)
-		mob_spawner.spawn_mob_common(positions, 180, Vector2(130, 0), "walk"))
+		# parede de mobs lado esquerdo
+		var left_positions: Positions = mob_spawn_position_handler.get_horizontal_positions("left", viewport_center_pos + 30)
+		while left_positions.mob_position.y > 0:
+			mob_spawner.spawn_mob_common(left_positions, 0, Vector2(130, 0), "walk")
+			left_positions.set_y(left_positions.mob_position.y - 120)
+		
+		# parede de mobs lado direito
+		var rigth_positions = mob_spawn_position_handler.get_horizontal_positions("rigth", viewport_center_pos - 30)
+		while rigth_positions.mob_position.y < get_viewport().size.y:
+			mob_spawner.spawn_mob_common(rigth_positions, 180, Vector2(130, 0), "walk")
+			rigth_positions.set_y(rigth_positions.mob_position.y + 120)
+	)
+	tween.tween_interval(3.8)
+	tween.tween_callback(func():
+		# segunda onda
+		var viewport_center_pos: int = int(MyUtility.get_window_scaled().y / 2)
+		
+		# parede de mobs lado esquerdo
+		var left_positions: Positions = mob_spawn_position_handler.get_horizontal_positions("rigth", viewport_center_pos + 150)
+		while left_positions.mob_position.y > 0:
+			mob_spawner.spawn_mob_common(left_positions, 180, Vector2(130, 0), "walk")
+			left_positions.set_y(left_positions.mob_position.y - 120)
+		
+		# parede de mobs lado direito
+		var rigth_positions = mob_spawn_position_handler.get_horizontal_positions("left", viewport_center_pos - 150)
+		while rigth_positions.mob_position.y < get_viewport().size.y:
+			mob_spawner.spawn_mob_common(rigth_positions, 0, Vector2(130, 0), "walk")
+			rigth_positions.set_y(rigth_positions.mob_position.y + 120)
+	)
 	tween.tween_interval(5.0)
 	tween.tween_callback(func(): $MobTimer.start())
 
@@ -158,7 +190,7 @@ func second_event() -> void:
 	
 	# 1º primeira seção (mais fácil)
 	while count > 0:
-		tween.tween_callback(func(): mob_spawner.spawn_mob_flash(mob_spawn_position_handler.get_vertical_random_position(), player.position))
+		tween.tween_callback(func(): mob_spawner.spawn_mob_flash(mob_spawn_position_handler.get_vertical_random_position(), player))
 		tween.tween_interval(1.0)
 		count -= 1
 	
@@ -168,8 +200,8 @@ func second_event() -> void:
 	# 2º seção (mais dificil)
 	while count > 0:
 		tween.tween_callback(func():
-			mob_spawner.spawn_mob_flash(mob_spawn_position_handler.get_vertical_random_position(), player.position)
-			mob_spawner.spawn_mob_flash(mob_spawn_position_handler.get_horizontal_random_position(), player.position))
+			mob_spawner.spawn_mob_flash(mob_spawn_position_handler.get_vertical_random_position(), player)
+			mob_spawner.spawn_mob_flash(mob_spawn_position_handler.get_horizontal_random_position(), player))
 		tween.tween_interval(1.0)
 		count -= 1
 	
@@ -178,11 +210,22 @@ func second_event() -> void:
 
 func third_event() -> void:
 	var tween: Tween = get_tree().create_tween()
-	#tween.tween_callback(func():
-	#	$MobSpawnerHandler.spawn_custom_horizontal(mob_obstacle, "left", 105, 0)
-	#	$MobSpawnerHandler.spawn_custom_horizontal(mob_obstacle, "left", 355, 0)
-	#	$MobSpawnerHandler.spawn_custom_horizontal(mob_obstacle, "left", 605, 0))
-	tween.tween_interval(5.0)
+	tween.tween_callback(func():
+		mob_spawner.spawn_mob_obstacle(mob_spawn_position_handler.get_horizontal_random_position())
+		mob_spawner.spawn_mob_obstacle(mob_spawn_position_handler.get_horizontal_random_position()))
+	tween.tween_interval(1.0)
+	tween.tween_callback(func():
+		mob_spawner.spawn_mob_obstacle(mob_spawn_position_handler.get_horizontal_random_position())
+		mob_spawner.spawn_mob_obstacle(mob_spawn_position_handler.get_horizontal_random_position()))
+	tween.tween_interval(1.0)
+	tween.tween_callback(func():
+		mob_spawner.spawn_mob_obstacle(mob_spawn_position_handler.get_horizontal_random_position())
+		mob_spawner.spawn_mob_obstacle(mob_spawn_position_handler.get_horizontal_random_position()))
+	tween.tween_interval(1.0)
+	tween.tween_callback(func():
+		mob_spawner.spawn_mob_obstacle(mob_spawn_position_handler.get_horizontal_random_position())
+		mob_spawner.spawn_mob_obstacle(mob_spawn_position_handler.get_horizontal_random_position()))
+	tween.tween_interval(8.0)
 	tween.tween_callback(func(): $MobTimer.start())
 
 
