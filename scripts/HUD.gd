@@ -1,4 +1,5 @@
 extends Node
+class_name Hud
 
 signal start_game
 
@@ -6,6 +7,8 @@ signal start_game
 @onready var debug_log: Control = $Pivot/DebugLog
 @onready var developer_control: Control = $DeveloperControl
 @onready var statistics = $Pivot/DebugLog/Statistics
+@onready var time_label = $Pivot/TimeLabel
+
 
 func _ready():
 	var hud_size = Vector2(get_tree().root.content_scale_size)
@@ -61,11 +64,12 @@ func show_game_over():
 	$Pivot/StartButton.show()
 
 
-func update_time(time: int) -> void:
-	var sec: int = time % 60
-	var min: int = int(time / 60)
-	var time_str: String = "%02d:%02d" % [min, sec]
-	$Pivot/TimeLabel.text = time_str
+func update_time(time: float) -> void:
+	var mil: float = fmod(time, 1) * 1000
+	var sec: float = fmod(time, 60)
+	var _min: float = fmod(time, 60*60) / 60
+	var time_str: String = "%02d:%02d:%03d" % [_min, sec, mil]
+	time_label.text = time_str
 
 
 func update_score(score):

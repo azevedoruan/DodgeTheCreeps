@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="MobEventThird" load_steps=2 format=3 uid="uid://cfjb5mmjtr6i3"]
+
+[ext_resource type="Script" path="res://scripts/resources/mobEventThird.gd" id="1_yx3fy"]
+
+[resource]
+resource_name = "inchame de obstaculos"
+script = ExtResource("1_yx3fy")

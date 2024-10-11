@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dbe62th8b3h7r"]
+[gd_scene load_steps=21 format=3 uid="uid://dbe62th8b3h7r"]
 
 [ext_resource type="Script" path="res://scripts/Main.gd" id="1_ejntv"]
 [ext_resource type="PackedScene" uid="uid://q3j7juu1j22q" path="res://scenes/Mob.tscn" id="2_gb1yj"]
@@ -14,8 +14,12 @@
 [ext_resource type="PackedScene" uid="uid://bqiobo4vyvq43" path="res://scenes/MobExplode.tscn" id="8_n05so"]
 [ext_resource type="PackedScene" uid="uid://d4ho7cvla4rq8" path="res://scenes/Shadow.tscn" id="8_toup8"]
 [ext_resource type="Script" path="res://scripts/MobSpawnPositionHandler.gd" id="9_3sdn3"]
+[ext_resource type="Resource" uid="uid://b5kt7w2ogmx56" path="res://resources/mob_event_first.tres" id="11_em6as"]
 [ext_resource type="PackedScene" uid="uid://4t06cdhcknx3" path="res://scenes/bubble_handler.tscn" id="12_2p1r6"]
+[ext_resource type="Resource" uid="uid://dqr68m0hssefi" path="res://resources/mob_event_second.tres" id="12_4dtth"]
+[ext_resource type="Script" path="res://scripts/MobsEventHandler.gd" id="12_urh7m"]
 [ext_resource type="PackedScene" uid="uid://cx2ltcncghsm6" path="res://scenes/MobFollower.tscn" id="12_w6318"]
+[ext_resource type="Resource" uid="uid://cfjb5mmjtr6i3" path="res://resources/mob_event_third.tres" id="13_q2wx6"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ejntv")
@@ -34,18 +38,25 @@ mob_explode = ExtResource("8_n05so")
 script = ExtResource("9_3sdn3")
 spawn_position_offset = 30.0
 
+[node name="MobsEventHandler" type="Node" parent="."]
+script = ExtResource("12_urh7m")
+events = Array[Resource("res://scripts/resources/mobEventAbstract.gd")]([ExtResource("11_em6as"), ExtResource("12_4dtth"), ExtResource("13_q2wx6")])
+
 [node name="JoyStickHandler" type="Node" parent="."]
 script = ExtResource("7_hdq0m")
 joy_stick = ExtResource("8_5lhya")
 
-[node name="MobTimer" type="Timer" parent="."]
-wait_time = 2.0
-
-[node name="ScoreTimer" type="Timer" parent="."]
-
 [node name="StartTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="SpecialMobsTimer" type="Timer" parent="."]
+
+[node name="EventTimer" type="Timer" parent="."]
+wait_time = 20.0
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -55,11 +66,14 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.104427, 0.463137, 0.479078, 1)
 
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(202, 450)
+
 [node name="BubbleHandler" parent="." instance=ExtResource("12_2p1r6")]
 z_index = 0
 
-[node name="StartPosition" type="Marker2D" parent="."]
-position = Vector2(202, 450)
+[node name="Player" parent="." node_paths=PackedStringArray("joystick_handler") instance=ExtResource("3_4njg7")]
+joystick_handler = NodePath("../JoyStickHandler")
 
 [node name="HUD" parent="." instance=ExtResource("4_44pns")]
 
@@ -69,12 +83,10 @@ stream = ExtResource("5_1ima1")
 [node name="DeathSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_mgqgs")
 
-[node name="Player" parent="." node_paths=PackedStringArray("joystick_handler") instance=ExtResource("3_4njg7")]
-joystick_handler = NodePath("../JoyStickHandler")
-
-[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
-[connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
+[connection signal="timeout" from="SpecialMobsTimer" to="." method="_on_special_mobs_timer_timeout"]
+[connection signal="timeout" from="EventTimer" to="." method="_on_mobs_event_start"]
+[connection signal="hit" from="Player" to="." method="_game_over"]
 [connection signal="start_game" from="HUD" to="." method="new_game"]
 [connection signal="start_game" from="HUD" to="JoyStickHandler" method="_on_hud_start_game"]
-[connection signal="hit" from="Player" to="." method="_game_over"]
