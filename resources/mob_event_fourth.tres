@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="MobEventFourth" load_steps=2 format=3 uid="uid://dxxdyonrep8ne"]
+
+[ext_resource type="Script" path="res://scripts/resources/mobEventFourth.gd" id="1_qjd6p"]
+
+[resource]
+resource_name = "sem saida"
+script = ExtResource("1_qjd6p")

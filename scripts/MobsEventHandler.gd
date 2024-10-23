@@ -25,8 +25,10 @@ func fire_event(mob_spawner: MobSpawner, mob_spawn_pos: MobSpawnPositionHandler,
 	
 	var tween: Tween = create_tween()
 	var event: MobEvent = events[event_index]
+	
 	if not event.end_event.is_connected(_on_event_end):
 		event.end_event.connect(_on_event_end)
+	
 	event.fire(mob_spawner, mob_spawn_pos, player, tween)
 	_event_count += 1
 

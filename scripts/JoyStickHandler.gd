@@ -20,10 +20,10 @@ func _ready():
 	joy_stick_instance = joy_stick.instantiate() as Node2D
 	joy_stick_instance.visible = false
 	
-	# add instância do joy_stick para dentro de main
+	var start_pos: Vector2 = MyUtility.get_window_scaled()
+	joy_stick_instance.position = Vector2(start_pos.x / 2, start_pos.y - 100)
 	get_parent().add_child.call_deferred(joy_stick_instance)
 	
-	# seleciona o Stick
 	stick = joy_stick_instance.get_node("Base/Stick") as Sprite2D
 
 
@@ -31,11 +31,9 @@ func _input(event):
 	# mostra e esconde o joy_stick na posição do toque na tela
 	if event is InputEventScreenTouch:
 		if event.is_pressed():
-			joy_stick_instance.position = Vector2(event.position.x, event.position.y)
 			joy_stick_instance.visible = true
 			event_index = event.index
 		elif event.is_released():
-			joy_stick_instance.visible = false
 			stick.position = Vector2.ZERO
 			direction = Vector2.ZERO
 	
@@ -43,10 +41,6 @@ func _input(event):
 		# calcula o tamanho e direcão do arrasto do toque na tela
 		distance = (joy_stick_instance.position).distance_to(event.position)
 		direction = (event.position - joy_stick_instance.position).normalized()
-		
-		# joystick se move na direção do toque quando a distancia deste for muito longa
-		if distance > JOYSTICK_DISTANCE_LIMIT_RADIUS:
-			joy_stick_instance.position += direction * (distance - JOYSTICK_DISTANCE_LIMIT_RADIUS)
 		
 		# limita a distancia para manter o stick dentro da base
 		if distance > STICK_DISTANCE_LIMIT_RADIUS:
@@ -64,3 +58,4 @@ func _on_player_hit():
 
 func _on_hud_start_game():
 	set_process_input(true)
+	joy_stick_instance.visible = true

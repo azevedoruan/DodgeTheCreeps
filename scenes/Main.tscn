@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dbe62th8b3h7r"]
+[gd_scene load_steps=22 format=3 uid="uid://dbe62th8b3h7r"]
 
 [ext_resource type="Script" path="res://scripts/Main.gd" id="1_ejntv"]
 [ext_resource type="PackedScene" uid="uid://q3j7juu1j22q" path="res://scenes/Mob.tscn" id="2_gb1yj"]
@@ -20,6 +20,7 @@
 [ext_resource type="Script" path="res://scripts/MobsEventHandler.gd" id="12_urh7m"]
 [ext_resource type="PackedScene" uid="uid://cx2ltcncghsm6" path="res://scenes/MobFollower.tscn" id="12_w6318"]
 [ext_resource type="Resource" uid="uid://cfjb5mmjtr6i3" path="res://resources/mob_event_third.tres" id="13_q2wx6"]
+[ext_resource type="Resource" uid="uid://dxxdyonrep8ne" path="res://resources/mob_event_fourth.tres" id="14_1epfv"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ejntv")
@@ -40,7 +41,7 @@ spawn_position_offset = 30.0
 
 [node name="MobsEventHandler" type="Node" parent="."]
 script = ExtResource("12_urh7m")
-events = Array[Resource("res://scripts/resources/mobEventAbstract.gd")]([ExtResource("11_em6as"), ExtResource("12_4dtth"), ExtResource("13_q2wx6")])
+events = Array[Resource("res://scripts/resources/mobEventAbstract.gd")]([ExtResource("11_em6as"), ExtResource("12_4dtth"), ExtResource("14_1epfv"), ExtResource("13_q2wx6")])
 
 [node name="JoyStickHandler" type="Node" parent="."]
 script = ExtResource("7_hdq0m")
