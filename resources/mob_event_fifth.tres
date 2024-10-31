@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="MobEventFifth" load_steps=2 format=3 uid="uid://dj8bd4mokvca"]
+
+[ext_resource type="Script" path="res://scripts/resources/mobEventFifth.gd" id="1_tdag4"]
+
+[resource]
+resource_name = "explosao de mobs"
+script = ExtResource("1_tdag4")

@@ -5,14 +5,14 @@ signal end_event_handler
 
 @export var events: Array[MobEvent]
 
-var _event_count: int = 0
+var _event_count: int = 4
 
 
 func restart_events() -> void:
-	_event_count = 0
+	_event_count = 4
 
 
-# dispara os eventos em ordem com o decorrer do jogo.
+# dispara os eventos em ordem no decorrer do jogo.
 func fire_event(mob_spawner: MobSpawner, mob_spawn_pos: MobSpawnPositionHandler, player: Player) -> void:
 	if player.visible == false:
 		return
