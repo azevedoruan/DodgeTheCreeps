@@ -5,11 +5,11 @@ signal end_event_handler
 
 @export var events: Array[MobEvent]
 
-var _event_count: int = 4
+var _event_count: int = 0
 
 
 func restart_events() -> void:
-	_event_count = 4
+	_event_count = 0
 
 
 # dispara os eventos em ordem no decorrer do jogo.
