@@ -48,6 +48,12 @@ func restart() -> void:
 		_sprite.scale = Vector2.ONE * param_scale
 		_sprite.modulate = Color.WHITE
 		_is_mature = true
+		
+		# caso o player ja esteja dentro dessa area2D
+		if has_overlapping_areas():
+			var areas: Array[Area2D] = get_overlapping_areas()
+			for area in areas:
+				_on_area_entered(area)
 	)
 
 
@@ -60,8 +66,8 @@ func reset() -> void:
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("player") and _is_mature:
-		_is_mature = false
 		_collision.set_deferred("disabled", true)
+		_is_mature = false
 		_player_node = area
 		set_process(true)
 	elif area.is_in_group("explosion"):
