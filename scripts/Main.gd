@@ -120,6 +120,9 @@ func _on_mobs_event_start() -> void:
 
 
 func _on_mobs_event_end() -> void:
+	if player.visible == false:
+		return
+	
 	special_mobs_timer.start()
 	mob_timer.start()
 	event_timer.start()

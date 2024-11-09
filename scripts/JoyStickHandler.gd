@@ -28,14 +28,15 @@ func _ready():
 
 
 func _input(event):
-	# mostra e esconde o joy_stick na posição do toque na tela
+	# aciona o joy_stick e sua posição
 	if event is InputEventScreenTouch:
 		if event.is_pressed():
-			joy_stick_instance.visible = true
-			event_index = event.index
+			if joy_stick_instance.position.distance_to(event.position) < JOYSTICK_DISTANCE_LIMIT_RADIUS:
+				event_index = event.index
 		elif event.is_released():
 			stick.position = Vector2.ZERO
 			direction = Vector2.ZERO
+			event_index = -1
 	
 	if event is InputEventScreenDrag and event_index != -1:
 		# calcula o tamanho e direcão do arrasto do toque na tela

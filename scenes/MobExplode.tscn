@@ -161,6 +161,7 @@ _data = {
 }
 
 [node name="MobExplode" type="RigidBody2D" groups=["mobs"]]
+collision_layer = 2
 collision_mask = 0
 gravity_scale = 0.0
 script = ExtResource("1_qccgn")

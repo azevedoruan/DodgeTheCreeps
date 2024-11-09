@@ -12,7 +12,7 @@ func restart_events() -> void:
 	_event_count = 0
 
 
-# dispara os eventos em ordem com o decorrer do jogo.
+# dispara os eventos em ordem no decorrer do jogo.
 func fire_event(mob_spawner: MobSpawner, mob_spawn_pos: MobSpawnPositionHandler, player: Player) -> void:
 	if player.visible == false:
 		return
