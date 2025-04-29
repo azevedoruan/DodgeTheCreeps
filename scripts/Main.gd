@@ -21,6 +21,7 @@ var is_time_scaled: bool = false
 
 func _ready() -> void:
 	mobs_event_handler.end_event_handler.connect(_on_mobs_event_end)
+	print(hud.name)
 
 
 func _process(delta):

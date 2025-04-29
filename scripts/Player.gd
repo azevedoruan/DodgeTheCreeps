@@ -8,7 +8,7 @@ signal hit
 
 var screen_size
 
-const SPEED: float = 9.2
+const SPEED: float = 185
 
 
 func _ready():
@@ -16,7 +16,7 @@ func _ready():
 
 
 func _process(delta):
-	var velocity: Vector2 = joystick_handler.direction * joystick_handler.distance
+	var velocity: Vector2 = joystick_handler.direction
 	
 	if velocity.length() > 0:
 		$AnimatedSprite2D.play()

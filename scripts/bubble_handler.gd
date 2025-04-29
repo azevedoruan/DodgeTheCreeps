@@ -1,7 +1,7 @@
 extends Node2D
 class_name BubbleHandler
 
-const START_TIME: float = 0.75
+const START_TIME: float = 0.4
 const BUBBLE_MAX_COUNT: int = 100
 const BUBBLE: PackedScene = preload("res://scenes/bubble_traditional.tscn")
 
