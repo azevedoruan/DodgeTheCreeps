@@ -78,6 +78,7 @@ func new_game():
 	hud.show_message("Get Ready")
 	$Music.play()
 	MyUtility.print_message_log("Game Started!")
+	#$Container/BubbleHandler.reset_bubblers()
 	$BubbleHandler.reset_bubbles()
 	mobs_event_handler.restart_events()
 

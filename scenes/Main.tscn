@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dbe62th8b3h7r"]
+[gd_scene load_steps=25 format=3 uid="uid://dbe62th8b3h7r"]
 
 [ext_resource type="Script" path="res://scripts/Main.gd" id="1_ejntv"]
 [ext_resource type="PackedScene" uid="uid://q3j7juu1j22q" path="res://scenes/Mob.tscn" id="2_gb1yj"]
@@ -22,6 +22,9 @@
 [ext_resource type="Resource" uid="uid://cfjb5mmjtr6i3" path="res://resources/mob_event_third.tres" id="13_q2wx6"]
 [ext_resource type="Resource" uid="uid://dxxdyonrep8ne" path="res://resources/mob_event_fourth.tres" id="14_1epfv"]
 [ext_resource type="Resource" uid="uid://dj8bd4mokvca" path="res://resources/mob_event_fifth.tres" id="15_nl8hl"]
+[ext_resource type="Texture2D" uid="uid://cxo2he6r4dqsw" path="res://art/Margin_solida.png" id="19_hj66a"]
+
+[sub_resource type="Theme" id="Theme_xjx8x"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ejntv")
@@ -60,22 +63,108 @@ wait_time = 2.0
 [node name="EventTimer" type="Timer" parent="."]
 wait_time = 20.0
 
-[node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="Container" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -202.5
+offset_top = -360.0
+offset_right = 197.5
+offset_bottom = 360.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.104427, 0.463137, 0.479078, 1)
+theme = SubResource("Theme_xjx8x")
 
-[node name="StartPosition" type="Marker2D" parent="."]
-position = Vector2(202, 450)
+[node name="Background" type="ColorRect" parent="Container"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -360.0
+offset_right = 205.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.105882, 0.462745, 0.478431, 1)
+
+[node name="MarginTop" type="TextureRect" parent="Container"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -488.0
+offset_top = -176.0
+offset_right = 512.0
+offset_bottom = 64.0
+grow_horizontal = 2
+texture = ExtResource("19_hj66a")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="MarginBottom" type="TextureRect" parent="Container"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -472.0
+offset_top = 662.0
+offset_right = 528.0
+offset_bottom = 902.0
+grow_horizontal = 2
+texture = ExtResource("19_hj66a")
+expand_mode = 1
+stretch_mode = 1
+flip_v = true
+
+[node name="MarginLeft" type="TextureRect" parent="Container"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -422.0
+offset_top = 860.0
+offset_right = 578.0
+offset_bottom = 1100.0
+grow_horizontal = 2
+rotation = -1.5708
+texture = ExtResource("19_hj66a")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="MarginRigth" type="TextureRect" parent="Container"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 189.0
+offset_top = 860.0
+offset_right = 1189.0
+offset_bottom = 1100.0
+grow_horizontal = 2
+rotation = -1.5708
+texture = ExtResource("19_hj66a")
+expand_mode = 1
+stretch_mode = 1
+flip_v = true
 
 [node name="BubbleHandler" parent="." instance=ExtResource("12_2p1r6")]
 z_index = 0
 
 [node name="Player" parent="." node_paths=PackedStringArray("joystick_handler") instance=ExtResource("3_4njg7")]
 joystick_handler = NodePath("../JoyStickHandler")
+
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(202, 450)
 
 [node name="HUD" parent="." instance=ExtResource("4_44pns")]
 
