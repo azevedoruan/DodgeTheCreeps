@@ -16,8 +16,8 @@ func _ready():
 
 
 func _process(delta):
-	#var velocity: Vector2 = joystick_handler.direction
-	var velocity: Vector2 = _move_by_keyboard()
+	var velocity: Vector2 = joystick_handler.direction
+	#var velocity: Vector2 = _move_by_keyboard()
 	
 	if velocity.length() > 0:
 		$AnimatedSprite2D.play()

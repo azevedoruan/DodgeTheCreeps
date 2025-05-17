@@ -22,8 +22,7 @@ func _ready():
 	joy_stick_instance.visible = false
 	
 	if start_pos == Vector2.ZERO:
-		start_pos = MyUtility.get_window_scaled()
-		start_pos = Vector2(start_pos.x / 2, start_pos.y - 100)
+		start_pos = Vector2(GameplayContainerServiceNode.center.x, GameplayContainerServiceNode.end.y - 30)
 	
 	joy_stick_instance.position = start_pos
 	get_parent().add_child.call_deferred(joy_stick_instance)

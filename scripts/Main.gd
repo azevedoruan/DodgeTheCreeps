@@ -1,14 +1,15 @@
 class_name Main
 extends Node
 
-@onready var player: Player = $Player
+@onready var player: Player = $Container/Player
 @onready var mob_spawner: MobSpawner = $MobSpawner
-@onready var mob_spawn_position_handler: MobSpawnPositionHandler = $MobSpawnPositionHandler
 @onready var mobs_event_handler: MobsEventHandler = $MobsEventHandler
 @onready var hud: Hud = $HUD
 @onready var mob_timer: Timer = $MobTimer
 @onready var special_mobs_timer: Timer = $SpecialMobsTimer
 @onready var event_timer: Timer = $EventTimer
+@onready var start_position: Marker2D = $Container/StartPosition
+@onready var bubble_handler: BubbleHandler = $Container/BubbleHandler
 
 var mob_timer_decrementer: int = 20
 var time_on: bool
@@ -71,15 +72,14 @@ func new_game():
 	event_count = 0
 	mob_timer.wait_time = 2
 	special_mobs_timer.wait_time = 1
-	player.start($StartPosition.position)
+	player.start(start_position.position)
 	$StartTimer.start()
 	hud.update_score(score)
 	hud.update_time(time)
 	hud.show_message("Get Ready")
 	$Music.play()
 	MyUtility.print_message_log("Game Started!")
-	#$Container/BubbleHandler.reset_bubblers()
-	$BubbleHandler.reset_bubbles()
+	bubble_handler.reset_bubbles()
 	mobs_event_handler.restart_events()
 
 
@@ -99,14 +99,14 @@ func _on_mob_timer_timeout():
 	
 	# mobs comuns abaixo de 10 pontos
 	if time < 10:
-		mob_spawner.spawn_random_mob_common(mob_spawn_position_handler.get_vertical_random_position(), player)
+		mob_spawner.spawn_random_mob_common(MobPositionServiceNode.get_vertical_random_position(), player)
 		return
 	
 	# mobs comuns acima de 10 pontos
 	if randf() < 0.5:
-		mob_spawner.spawn_random_mob_common(mob_spawn_position_handler.get_horizontal_random_position(), player)
+		mob_spawner.spawn_random_mob_common(MobPositionServiceNode.get_horizontal_random_position(), player)
 	else:
-		mob_spawner.spawn_random_mob_common(mob_spawn_position_handler.get_vertical_random_position(), player)
+		mob_spawner.spawn_random_mob_common(MobPositionServiceNode.get_vertical_random_position(), player)
 
 
 func _on_mobs_event_start() -> void:
@@ -116,7 +116,7 @@ func _on_mobs_event_start() -> void:
 	var tween: Tween = get_tree().create_tween()
 	tween.tween_interval(7.0)
 	tween.tween_callback(func():
-		mobs_event_handler.fire_event(mob_spawner, mob_spawn_position_handler, player)
+		mobs_event_handler.fire_event(mob_spawner, player)
 	)
 	MyUtility.print_message_log("Tempo de evento")
 
@@ -135,13 +135,13 @@ func _on_special_mobs_timer_timeout() -> void:
 	special_mob_count += 1
 	
 	if (special_mob_count % 12) == 0 and time > 20:
-		mob_spawner.spawn_mob_flash(mob_spawn_position_handler.get_vertical_random_position(), player)
+		mob_spawner.spawn_mob_flash(MobPositionServiceNode.get_vertical_random_position(), player)
 	
 	if (special_mob_count % 10) == 0 and time > 60:
-		mob_spawner.spawn_mob_follower(mob_spawn_position_handler.get_vertical_random_position(), player)
+		mob_spawner.spawn_mob_follower(MobPositionServiceNode.get_vertical_random_position(), player)
 	
 	if (special_mob_count % 8) == 0 and time > 90:
-		mob_spawner.spawn_mob_obstacle(mob_spawn_position_handler.get_horizontal_random_position())
+		mob_spawner.spawn_mob_obstacle(MobPositionServiceNode.get_horizontal_random_position())
 	
 	if (special_mob_count % 14) == 0 and time > 125:
-		mob_spawner.spawn_mob_explode(mob_spawn_position_handler.get_horizontal_random_position())
+		mob_spawner.spawn_mob_explode(MobPositionServiceNode.get_horizontal_random_position())

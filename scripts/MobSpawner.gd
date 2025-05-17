@@ -12,7 +12,7 @@ class_name MobSpawner
 
 func spawn_random_mob_common(positions: Positions, player: Player) -> void:
 	var mob_instance: MobCommon = mob_common.instantiate() as MobCommon
-	mob_instance.set_default_behaviour(positions.mob_position, player)
+	mob_instance.set_default_behaviour(positions.mob_position, player, get_parent().score)
 	_spawn_mob(mob_instance, positions.shadow_positon)
 
 

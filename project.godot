@@ -18,6 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 MyUtility="*res://scripts/Utility.gd"
+GameplayContainerServiceNode="*res://scripts/GameplayContainerService.gd"
+MobPositionServiceNode="*res://scripts/MobPositionService.gd"
 
 [display]
 

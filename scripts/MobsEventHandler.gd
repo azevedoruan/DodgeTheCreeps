@@ -13,7 +13,7 @@ func restart_events() -> void:
 
 
 # dispara os eventos em ordem no decorrer do jogo.
-func fire_event(mob_spawner: MobSpawner, mob_spawn_pos: MobSpawnPositionHandler, player: Player) -> void:
+func fire_event(mob_spawner: MobSpawner, player: Player) -> void:
 	if player.visible == false:
 		return
 	
@@ -29,7 +29,7 @@ func fire_event(mob_spawner: MobSpawner, mob_spawn_pos: MobSpawnPositionHandler,
 	if not event.end_event.is_connected(_on_event_end):
 		event.end_event.connect(_on_event_end)
 	
-	event.fire(mob_spawner, mob_spawn_pos, player, tween)
+	event.fire(mob_spawner, player, tween)
 	_event_count += 1
 
 

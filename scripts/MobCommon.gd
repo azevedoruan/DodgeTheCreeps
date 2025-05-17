@@ -30,13 +30,13 @@ func _ready():
 	animated_sprite.play(_animation_name)
 
 
-func set_default_behaviour(p_positon: Vector2, player: Node2D) -> void:
+func set_default_behaviour(p_positon: Vector2, player: Node2D, score: int) -> void:
 	set_position(p_positon)
 	
 	# escolhe a animação do mob
-	if player.get_parent().score < 10:
+	if score < 10:
 		set_animation_name(mob_types[0])
-	elif player.get_parent().score >= 10:
+	elif score >= 10:
 		set_animation_name(mob_types[randi_range(0, 2)])
 	
 	# determina a velocidade e direção

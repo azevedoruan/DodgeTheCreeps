@@ -1,6 +1,8 @@
 extends Node2D
 class_name BubbleHandler
 
+@export var main: Main
+
 const START_TIME: float = 0.4
 const BUBBLE_MAX_COUNT: int = 100
 const BUBBLE: PackedScene = preload("res://scenes/bubble_traditional.tscn")
@@ -55,4 +57,4 @@ func _on_bubble_is_collected(bubble: BubbleTraditional, is_collected: bool) -> v
 	_invisible_bubbles.push_back(bubble)
 	
 	if is_collected:
-		get_parent().on_bubble_collected()
+		main.on_bubble_collected()
