@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cfftthudjlcxh" path="res://art/AnalogStick_small.png" id="2_rui2e"]
 
 [node name="JoyStick" type="Node2D"]
+z_index = 5
 
 [node name="Base" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.27451)
