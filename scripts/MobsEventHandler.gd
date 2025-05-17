@@ -33,5 +33,12 @@ func fire_event(mob_spawner: MobSpawner, player: Player) -> void:
 	_event_count += 1
 
 
+# for DEBUG
+func fire_a_event(mob_spawner: MobSpawner, player: Player, event_index: int = 0) -> void:
+	var tween: Tween = create_tween()
+	var event: MobEvent = events[event_index]
+	event.fire(mob_spawner, player, tween)
+
+
 func _on_event_end() -> void:
 	end_event_handler.emit()

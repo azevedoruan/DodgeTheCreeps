@@ -13,7 +13,7 @@ var _axis_y_top: float
 var _axis_y_bottom: float
 
 
-func _ready() -> void:
+func init_positions() -> void:
 	# prepara as posições do spawn
 	#var root = get_tree().root
 	#_axis_x_left = 0
@@ -80,9 +80,9 @@ func get_horizontal_positions(side: String, axis_y: float) -> Positions:
 	
 	# determina posição no eixo y
 	# ajusta o valor axis_y escolhido para os limites do container
-	var pos_y: float = _axis_y_top + clampf(axis_y, 0.0, GameplayContainerServiceNode.size.y)
-	positions.mob_position.y = pos_y
-	positions.shadow_positon.y = pos_y
+	#var pos_y: float = _axis_y_top + clampf(axis_y, 0.0, GameplayContainerServiceNode.size.y)
+	positions.mob_position.y = axis_y
+	positions.shadow_positon.y = axis_y
 	
 	return positions
 
@@ -92,7 +92,7 @@ func get_vertical_positions(place: String, axis_x: float) -> Positions:
 	
 	# determina posição no eixo x
 	# ajusta o valor axis_x escolhido para os limites do container
-	var pos_x: float = _axis_x_left + clampf(axis_x, 0.0, GameplayContainerServiceNode.size.x)
+	#var pos_x: float = _axis_x_left + clampf(axis_x, 0.0, GameplayContainerServiceNode.size.x)
 	positions.mob_position.x = axis_x
 	positions.shadow_positon.x = axis_x
 	

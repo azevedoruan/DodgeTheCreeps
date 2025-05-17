@@ -109,16 +109,20 @@ func _on_time_accelerate_button_toggled(toggled_on: bool) -> void:
 
 
 func _on_event_1_button_pressed() -> void:
-	get_parent().first_event()
+	get_parent().fire_event_test(1)
 
 
 func _on_event_1_button_2_pressed() -> void:
-	get_parent().second_event()
+	get_parent().fire_event_test(2)
 
 
 func _on_event_1_button_3_pressed() -> void:
-	get_parent().third_event()
+	get_parent().fire_event_test(3)
 
 
 func _on_event_1_button_4_pressed() -> void:
-	get_parent().fourth_event()
+	get_parent().fire_event_test(4)
+
+
+func _on_draw_line_debug_button_pressed() -> void:
+	get_parent().activate_rect_lines_debug()

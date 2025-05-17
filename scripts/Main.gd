@@ -22,7 +22,8 @@ var is_time_scaled: bool = false
 
 func _ready() -> void:
 	mobs_event_handler.end_event_handler.connect(_on_mobs_event_end)
-	print(hud.name)
+	GameplayContainerServiceNode.init_container_position()
+	MobPositionServiceNode.init_positions()
 
 
 func _process(delta):
@@ -34,7 +35,7 @@ func _process(delta):
 		if is_time_scaled == false:
 			time_scale(true)
 		else:
-			time_scale(false)
+			time_scale(false)	
 
 
 #TEST for dev configurations
@@ -81,6 +82,16 @@ func new_game():
 	MyUtility.print_message_log("Game Started!")
 	bubble_handler.reset_bubbles()
 	mobs_event_handler.restart_events()
+
+#TEST for dev configurations
+func fire_event_test(index: int) -> void:
+	mobs_event_handler.fire_a_event(mob_spawner, player, index)
+
+#TEST for dev configurations
+func activate_rect_lines_debug() -> void:
+	var obj: LinesDebug2D = $Container/GameplayBorder
+	obj.is_debug = !obj.is_debug
+	obj.queue_redraw()
 
 
 func _on_start_timer_timeout():
