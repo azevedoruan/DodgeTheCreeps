@@ -6,6 +6,7 @@ class_name BubbleHandler
 const START_TIME: float = 0.4
 const BUBBLE_MAX_COUNT: int = 100
 const BUBBLE: PackedScene = preload("res://scenes/bubble_traditional.tscn")
+const OFFSET_BUBBLES_AREA: float = 30.0
 
 var _bubble_count: int = 0
 var _invisible_bubbles: Array[BubbleTraditional]
@@ -43,8 +44,8 @@ func _spawn_bubble() -> void:
 	
 	# define a posição
 	instance.position = Vector2(
-		randf_range(30.0, MyUtility.get_window_scaled().x - 30.0),
-		randf_range(30.0, MyUtility.get_window_scaled().y - 30.0)
+		randf_range(GameplayContainerServiceNode.begin.x + OFFSET_BUBBLES_AREA, GameplayContainerServiceNode.end.x - OFFSET_BUBBLES_AREA),
+		randf_range(GameplayContainerServiceNode.begin.y + OFFSET_BUBBLES_AREA, GameplayContainerServiceNode.end.y - OFFSET_BUBBLES_AREA)
 	)
 	
 	if instance.get_parent() == null:
