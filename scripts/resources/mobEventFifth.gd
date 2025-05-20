@@ -1,28 +1,28 @@
 class_name MobEventFifth
 extends MobEvent
 
-func fire(mob_spawner: MobSpawner, mob_spawn_pos: MobSpawnPositionHandler, player, tween: Tween) -> void:
-	var heigth_screen: float = MyUtility.get_window_scaled().y
-	var heigth_quadrant: float = heigth_screen / 4
-	var heigth_offset: float = heigth_quadrant / 2
-	var pos: Positions = mob_spawn_pos.get_horizontal_positions("left", heigth_offset)
+func fire(mob_spawner: MobSpawner, player, tween: Tween) -> void:
+	var height_screen: float = GameplayContainerServiceNode.end.y
+	var height_quadrant: float = height_screen / 4
+	var height_offset: float = height_quadrant / 2
+	var pos: Positions = MobPositionServiceNode.get_horizontal_positions("left", height_offset)
 	
 	tween.tween_callback(func():
 		mob_spawner.spawn_mob_explode(pos)
 	)
 	tween.tween_interval(1.5)
 	tween.tween_callback(func():
-		pos = mob_spawn_pos.get_horizontal_positions("rigth", heigth_quadrant + heigth_offset)
+		pos = MobPositionServiceNode.get_horizontal_positions("rigth", height_quadrant + height_offset)
 		mob_spawner.spawn_mob_explode(pos)
 	)
 	tween.tween_interval(3.0)
 	tween.tween_callback(func():
-		pos = mob_spawn_pos.get_horizontal_positions("left", (3 * heigth_quadrant) + heigth_offset)
+		pos = MobPositionServiceNode.get_horizontal_positions("left", (3 * height_quadrant) + height_offset)
 		mob_spawner.spawn_mob_explode(pos)
 	)
 	tween.tween_interval(1.5)
 	tween.tween_callback(func():
-		pos = mob_spawn_pos.get_horizontal_positions("rigth", (2 * heigth_quadrant) + heigth_offset)
+		pos = MobPositionServiceNode.get_horizontal_positions("rigth", (2 * height_quadrant) + height_offset)
 		mob_spawner.spawn_mob_explode(pos)
 	)
 	

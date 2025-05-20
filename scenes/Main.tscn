@@ -1,6 +1,7 @@
-[gd_scene load_steps=23 format=3 uid="uid://dbe62th8b3h7r"]
+[gd_scene load_steps=25 format=3 uid="uid://dbe62th8b3h7r"]
 
 [ext_resource type="Script" path="res://scripts/Main.gd" id="1_ejntv"]
+[ext_resource type="Script" path="res://scripts/debugger/LinesDebug2D.gd" id="2_bsfu4"]
 [ext_resource type="PackedScene" uid="uid://q3j7juu1j22q" path="res://scenes/Mob.tscn" id="2_gb1yj"]
 [ext_resource type="PackedScene" uid="uid://bylfbpe4t2bj8" path="res://scenes/Player.tscn" id="3_4njg7"]
 [ext_resource type="PackedScene" uid="uid://b8faj1rq2wdga" path="res://scenes/MobFlash.tscn" id="3_tmxv5"]
@@ -13,7 +14,6 @@
 [ext_resource type="PackedScene" uid="uid://dghp2gncrgobu" path="res://scenes/JoyStick.tscn" id="8_5lhya"]
 [ext_resource type="PackedScene" uid="uid://bqiobo4vyvq43" path="res://scenes/MobExplode.tscn" id="8_n05so"]
 [ext_resource type="PackedScene" uid="uid://d4ho7cvla4rq8" path="res://scenes/Shadow.tscn" id="8_toup8"]
-[ext_resource type="Script" path="res://scripts/MobSpawnPositionHandler.gd" id="9_3sdn3"]
 [ext_resource type="Resource" uid="uid://b5kt7w2ogmx56" path="res://resources/mob_event_first.tres" id="11_em6as"]
 [ext_resource type="PackedScene" uid="uid://4t06cdhcknx3" path="res://scenes/bubble_handler.tscn" id="12_2p1r6"]
 [ext_resource type="Resource" uid="uid://dqr68m0hssefi" path="res://resources/mob_event_second.tres" id="12_4dtth"]
@@ -22,10 +22,142 @@
 [ext_resource type="Resource" uid="uid://cfjb5mmjtr6i3" path="res://resources/mob_event_third.tres" id="13_q2wx6"]
 [ext_resource type="Resource" uid="uid://dxxdyonrep8ne" path="res://resources/mob_event_fourth.tres" id="14_1epfv"]
 [ext_resource type="Resource" uid="uid://dj8bd4mokvca" path="res://resources/mob_event_fifth.tres" id="15_nl8hl"]
+[ext_resource type="Texture2D" uid="uid://cxo2he6r4dqsw" path="res://art/Margin_solida.png" id="19_hj66a"]
+
+[sub_resource type="Theme" id="Theme_xjx8x"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ejntv")
 metadata/_edit_vertical_guides_ = [-271.0]
+
+[node name="Container" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_xjx8x")
+
+[node name="Background" type="ColorRect" parent="Container"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -209.5
+offset_top = -360.0
+offset_right = 210.5
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.105882, 0.462745, 0.478431, 1)
+
+[node name="GameplayBorder" type="Control" parent="Container"]
+z_index = 10
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -194.5
+offset_top = -319.0
+offset_right = 195.5
+offset_bottom = 342.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_bsfu4")
+is_debug = false
+color = Color(0, 1, 0, 1)
+line_width = 4.0
+
+[node name="BubbleHandler" parent="Container" node_paths=PackedStringArray("main") instance=ExtResource("12_2p1r6")]
+z_index = 0
+main = NodePath("../..")
+
+[node name="Player" parent="Container" node_paths=PackedStringArray("joystick_handler") instance=ExtResource("3_4njg7")]
+joystick_handler = NodePath("../../JoyStickHandler")
+
+[node name="StartPosition" type="Marker2D" parent="Container"]
+position = Vector2(202, 450)
+
+[node name="MarginTop" type="TextureRect" parent="Container"]
+z_index = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = -548.0
+offset_right = 500.0
+offset_bottom = -308.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("19_hj66a")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="MarginBottom" type="TextureRect" parent="Container"]
+z_index = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -500.0
+offset_top = 331.0
+offset_right = 500.0
+offset_bottom = 571.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("19_hj66a")
+expand_mode = 1
+stretch_mode = 1
+flip_v = true
+
+[node name="MarginLeft" type="TextureRect" parent="Container"]
+z_index = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -427.5
+offset_top = 520.0
+offset_right = 572.5
+offset_bottom = 760.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5708
+texture = ExtResource("19_hj66a")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="MarginRigth" type="TextureRect" parent="Container"]
+z_index = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 187.5
+offset_top = 484.0
+offset_right = 1187.5
+offset_bottom = 724.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5708
+texture = ExtResource("19_hj66a")
+expand_mode = 1
+stretch_mode = 1
+flip_v = true
 
 [node name="MobSpawner" type="Node" parent="."]
 script = ExtResource("7_fg8rl")
@@ -35,10 +167,6 @@ mob_flash = ExtResource("3_tmxv5")
 mob_follower = ExtResource("12_w6318")
 mob_obstacle = ExtResource("7_7havj")
 mob_explode = ExtResource("8_n05so")
-
-[node name="MobSpawnPositionHandler" type="Node" parent="."]
-script = ExtResource("9_3sdn3")
-spawn_position_offset = 30.0
 
 [node name="MobsEventHandler" type="Node" parent="."]
 script = ExtResource("12_urh7m")
@@ -60,23 +188,6 @@ wait_time = 2.0
 [node name="EventTimer" type="Timer" parent="."]
 wait_time = 20.0
 
-[node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.104427, 0.463137, 0.479078, 1)
-
-[node name="StartPosition" type="Marker2D" parent="."]
-position = Vector2(202, 450)
-
-[node name="BubbleHandler" parent="." instance=ExtResource("12_2p1r6")]
-z_index = 0
-
-[node name="Player" parent="." node_paths=PackedStringArray("joystick_handler") instance=ExtResource("3_4njg7")]
-joystick_handler = NodePath("../JoyStickHandler")
-
 [node name="HUD" parent="." instance=ExtResource("4_44pns")]
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
@@ -85,11 +196,11 @@ stream = ExtResource("5_1ima1")
 [node name="DeathSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_mgqgs")
 
+[connection signal="hit" from="Container/Player" to="." method="_game_over"]
+[connection signal="hit" from="Container/Player" to="JoyStickHandler" method="_on_player_hit"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="timeout" from="SpecialMobsTimer" to="." method="_on_special_mobs_timer_timeout"]
 [connection signal="timeout" from="EventTimer" to="." method="_on_mobs_event_start"]
-[connection signal="hit" from="Player" to="." method="_game_over"]
-[connection signal="hit" from="Player" to="JoyStickHandler" method="_on_player_hit"]
 [connection signal="start_game" from="HUD" to="." method="new_game"]
 [connection signal="start_game" from="HUD" to="JoyStickHandler" method="_on_hud_start_game"]
