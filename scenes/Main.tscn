@@ -41,123 +41,111 @@ theme = SubResource("Theme_xjx8x")
 
 [node name="Background" type="ColorRect" parent="Container"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
 offset_left = -209.5
-offset_top = -360.0
 offset_right = 210.5
-offset_bottom = 360.0
+offset_bottom = 735.0
 grow_horizontal = 2
-grow_vertical = 2
 color = Color(0.105882, 0.462745, 0.478431, 1)
+metadata/_edit_lock_ = true
 
 [node name="GameplayBorder" type="Control" parent="Container"]
 z_index = 10
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
 offset_left = -194.5
-offset_top = -319.0
+offset_top = 71.0
 offset_right = 195.5
-offset_bottom = 342.0
+offset_bottom = 714.0
 grow_horizontal = 2
-grow_vertical = 2
 script = ExtResource("2_bsfu4")
 is_debug = false
 color = Color(0, 1, 0, 1)
 line_width = 4.0
+metadata/_edit_lock_ = true
 
 [node name="BubbleHandler" parent="Container" node_paths=PackedStringArray("main") instance=ExtResource("12_2p1r6")]
 z_index = 0
 main = NodePath("../..")
 
 [node name="Player" parent="Container" node_paths=PackedStringArray("joystick_handler") instance=ExtResource("3_4njg7")]
+position = Vector2(202, 483)
 joystick_handler = NodePath("../../JoyStickHandler")
 
 [node name="StartPosition" type="Marker2D" parent="Container"]
-position = Vector2(202, 450)
+position = Vector2(202, 483)
 
 [node name="MarginTop" type="TextureRect" parent="Container"]
 z_index = 2
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
 offset_left = -500.0
-offset_top = -548.0
+offset_top = -158.0
 offset_right = 500.0
-offset_bottom = -308.0
+offset_bottom = 82.0
 grow_horizontal = 2
-grow_vertical = 2
 texture = ExtResource("19_hj66a")
 expand_mode = 1
 stretch_mode = 1
+metadata/_edit_lock_ = true
 
 [node name="MarginBottom" type="TextureRect" parent="Container"]
 z_index = 2
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
 offset_left = -500.0
-offset_top = 331.0
+offset_top = 703.0
 offset_right = 500.0
-offset_bottom = 571.0
+offset_bottom = 943.0
 grow_horizontal = 2
-grow_vertical = 2
 texture = ExtResource("19_hj66a")
 expand_mode = 1
 stretch_mode = 1
 flip_v = true
+metadata/_edit_lock_ = true
 
 [node name="MarginLeft" type="TextureRect" parent="Container"]
 z_index = 2
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -427.5
-offset_top = 520.0
-offset_right = 572.5
-offset_bottom = 760.0
+offset_left = -425.5
+offset_top = 967.0
+offset_right = 574.5
+offset_bottom = 1207.0
 grow_horizontal = 2
-grow_vertical = 2
 rotation = -1.5708
 texture = ExtResource("19_hj66a")
 expand_mode = 1
 stretch_mode = 1
+metadata/_edit_lock_ = true
 
 [node name="MarginRigth" type="TextureRect" parent="Container"]
 z_index = 2
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 187.5
-offset_top = 484.0
-offset_right = 1187.5
-offset_bottom = 724.0
+offset_left = 185.5
+offset_top = 998.0
+offset_right = 1185.5
+offset_bottom = 1238.0
 grow_horizontal = 2
-grow_vertical = 2
 rotation = -1.5708
 texture = ExtResource("19_hj66a")
 expand_mode = 1
 stretch_mode = 1
 flip_v = true
+metadata/_edit_lock_ = true
 
 [node name="MobSpawner" type="Node" parent="."]
 script = ExtResource("7_fg8rl")
