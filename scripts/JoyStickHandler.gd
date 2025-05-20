@@ -17,17 +17,18 @@ const JOYSTICK_DISTANCE_LIMIT_RADIUS: float = 65.0
 func _ready():
 	# desabilita os processos de input (esses eventos só devem ser habilitados quando o gameplay iniciar)
 	set_process_input(false)
-	#
-	#joy_stick_instance = joy_stick.instantiate() as Node2D
-	#joy_stick_instance.visible = false
-	#
-	#if start_pos == Vector2.ZERO:
-		#start_pos = Vector2(GameplayContainerServiceNode.center.x, GameplayContainerServiceNode.end.y - 30)
-	#
-	#joy_stick_instance.position = start_pos
-	#get_parent().add_child.call_deferred(joy_stick_instance)
-	#
-	#stick = joy_stick_instance.get_node("Base/Stick") as Sprite2D
+	
+	joy_stick_instance = joy_stick.instantiate() as Node2D
+	joy_stick_instance.visible = false
+	
+	if start_pos == Vector2.ZERO:
+		var pos: Vector2i = get_tree().root.get_size()
+		start_pos = Vector2(pos.x / 2, pos.y - 80)
+	
+	joy_stick_instance.position = start_pos
+	get_parent().add_child.call_deferred(joy_stick_instance)
+	
+	stick = joy_stick_instance.get_node("Base/Stick") as Sprite2D
 
 
 func _input(event):
@@ -62,15 +63,15 @@ func _on_player_hit():
 
 
 func _on_hud_start_game():
-	if joy_stick_instance == null:
-		joy_stick_instance = joy_stick.instantiate() as Node2D
-		
-		if start_pos == Vector2.ZERO:
-			start_pos = Vector2(GameplayContainerServiceNode.center.x, GameplayContainerServiceNode.end.y - 30)
-		
-		joy_stick_instance.position = start_pos
-		get_parent().add_child.call_deferred(joy_stick_instance)
-		stick = joy_stick_instance.get_node("Base/Stick") as Sprite2D
+	#if joy_stick_instance == null:
+		#joy_stick_instance = joy_stick.instantiate() as Node2D
+		#
+		#if start_pos == Vector2.ZERO:
+			#start_pos = Vector2(GameplayContainerServiceNode.center.x, GameplayContainerServiceNode.end.y - 30)
+		#
+		#joy_stick_instance.position = start_pos
+		#get_parent().add_child.call_deferred(joy_stick_instance)
+		#stick = joy_stick_instance.get_node("Base/Stick") as Sprite2D
 	
 	set_process_input(true)
 	joy_stick_instance.visible = true
