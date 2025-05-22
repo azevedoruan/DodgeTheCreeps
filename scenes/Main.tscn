@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dbe62th8b3h7r"]
+[gd_scene load_steps=26 format=3 uid="uid://dbe62th8b3h7r"]
 
 [ext_resource type="Script" path="res://scripts/Main.gd" id="1_ejntv"]
 [ext_resource type="Script" path="res://scripts/debugger/LinesDebug2D.gd" id="2_bsfu4"]
@@ -22,6 +22,7 @@
 [ext_resource type="Resource" uid="uid://cfjb5mmjtr6i3" path="res://resources/mob_event_third.tres" id="13_q2wx6"]
 [ext_resource type="Resource" uid="uid://dxxdyonrep8ne" path="res://resources/mob_event_fourth.tres" id="14_1epfv"]
 [ext_resource type="Resource" uid="uid://dj8bd4mokvca" path="res://resources/mob_event_fifth.tres" id="15_nl8hl"]
+[ext_resource type="Resource" uid="uid://dyacpdwgr1xui" path="res://resources/mob_event_sixth.tres" id="19_2ml6s"]
 [ext_resource type="Texture2D" uid="uid://cxo2he6r4dqsw" path="res://art/Margin_solida.png" id="19_hj66a"]
 
 [sub_resource type="Theme" id="Theme_xjx8x"]
@@ -38,6 +39,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_xjx8x")
+metadata/_edit_lock_ = true
 
 [node name="Background" type="ColorRect" parent="Container"]
 layout_mode = 1
@@ -158,7 +160,8 @@ mob_explode = ExtResource("8_n05so")
 
 [node name="MobsEventHandler" type="Node" parent="."]
 script = ExtResource("12_urh7m")
-events = Array[Resource("res://scripts/resources/mobEventAbstract.gd")]([ExtResource("11_em6as"), ExtResource("12_4dtth"), ExtResource("14_1epfv"), ExtResource("13_q2wx6"), ExtResource("15_nl8hl")])
+initial_event_count = 4
+events = Array[Resource("res://scripts/resources/mobEventAbstract.gd")]([ExtResource("11_em6as"), ExtResource("12_4dtth"), ExtResource("14_1epfv"), ExtResource("13_q2wx6"), ExtResource("15_nl8hl"), ExtResource("19_2ml6s")])
 
 [node name="JoyStickHandler" type="Node" parent="."]
 script = ExtResource("7_hdq0m")

@@ -17,6 +17,8 @@ var time: float
 var score: int = 0
 var special_mob_count: int = 0
 var event_count: int = 0
+
+#TEST for dev configurations
 var is_time_scaled: bool = false
 
 

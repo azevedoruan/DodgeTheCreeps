@@ -107,22 +107,30 @@ func _on_imortal_mode_button_toggled(toggled_on: bool) -> void:
 func _on_time_accelerate_button_toggled(toggled_on: bool) -> void:
 	get_parent().time_scale(toggled_on)
 
-
+#TEST for dev configurations
 func _on_event_1_button_pressed() -> void:
+	get_parent().fire_event_test(0)
+
+#TEST for dev configurations
+func _on_event_1_button_2_pressed() -> void:
 	get_parent().fire_event_test(1)
 
-
-func _on_event_1_button_2_pressed() -> void:
+#TEST for dev configurations
+func _on_event_1_button_3_pressed() -> void:
 	get_parent().fire_event_test(2)
 
-
-func _on_event_1_button_3_pressed() -> void:
+#TEST for dev configurations
+func _on_event_1_button_4_pressed() -> void:
 	get_parent().fire_event_test(3)
 
-
-func _on_event_1_button_4_pressed() -> void:
+#TEST for dev configurations
+func _on_event_1_button_5_pressed():
 	get_parent().fire_event_test(4)
 
+#TEST for dev configurations
+func _on_event_1_button_6_pressed():
+	get_parent().fire_event_test(5)
 
+#TEST for dev configurations
 func _on_draw_line_debug_button_pressed() -> void:
 	get_parent().activate_rect_lines_debug()

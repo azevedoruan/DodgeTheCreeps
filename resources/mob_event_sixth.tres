@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="MobEventSixth" load_steps=2 format=3 uid="uid://dyacpdwgr1xui"]
+
+[ext_resource type="Script" path="res://scripts/resources/mobEventSixth.gd" id="1_qetdn"]
+
+[resource]
+resource_name = "horda de mobs"
+script = ExtResource("1_qetdn")

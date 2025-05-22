@@ -1,39 +1,53 @@
-extends Area2D
 class_name Player
+extends Area2D
 
 signal hit
 
 @export var joystick_handler: JoyStickHandler
 @export var is_immortal: bool = false
 
-var screen_size
+@onready var _animation_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var _collision_shape: CollisionShape2D = $CollisionShape2D
+
+#TODO calcular limites da área de gameplay por meio do GameplayContainerService
+var _screen_size: Vector2
+var _is_on_computer: bool
 
 const SPEED: float = 185
 
 
 func _ready():
-	screen_size = get_viewport_rect().size
+	_screen_size = get_viewport_rect().size
+	
+	var os_name: String = OS.get_name()
+	if os_name == "Android" || os_name == "iOS":
+		_is_on_computer = false
+	else:
+		_is_on_computer = true
 
 
 func _process(delta):
-	var velocity: Vector2 = joystick_handler.direction
-	#var velocity: Vector2 = _move_by_keyboard()
+	var velocity: Vector2 = Vector2.ZERO
+	if _is_on_computer:
+		velocity = _move_by_keyboard()
+	else:
+		velocity = joystick_handler.direction
 	
 	if velocity.length() > 0:
-		$AnimatedSprite2D.play()
+		_animation_sprite.play()
 	else:
-		$AnimatedSprite2D.stop()
+		_animation_sprite.stop()
 	
 	position += velocity * delta * SPEED
-	position = position.clamp(Vector2.ZERO, screen_size)
+	position = position.clamp(Vector2.ZERO, _screen_size)
 	
 	if abs(velocity.x) > abs(velocity.y):
-		$AnimatedSprite2D.animation = "walk"
-		$AnimatedSprite2D.flip_v = false
-		$AnimatedSprite2D.flip_h = velocity.x < 0
+		_animation_sprite.animation = "walk"
+		_animation_sprite.flip_v = false
+		_animation_sprite.flip_h = velocity.x < 0
 	elif abs(velocity.y) > abs(velocity.x):
-		$AnimatedSprite2D.animation = "up"
-		$AnimatedSprite2D.flip_v = true if velocity.y > 0 else false
+		_animation_sprite.animation = "up"
+		_animation_sprite.flip_v = true if velocity.y > 0 else false
 
 
 func _move_by_keyboard():
@@ -54,13 +68,13 @@ func _on_area_entered(_area):
 	if is_immortal == false:
 		hide()
 		hit.emit()
-		$CollisionShape2D.set_deferred("disabled", true)
+		_collision_shape.set_deferred("disabled", true)
 
 
 func start(pos):
 	position = pos
 	show()
-	$CollisionShape2D.disabled = false
+	_collision_shape.disabled = false
 
 
 func _on_body_shape_entered(_body_rid: RID, body: Node2D, _body_shape_index: int, _local_shape_index: int) -> void:
@@ -69,4 +83,4 @@ func _on_body_shape_entered(_body_rid: RID, body: Node2D, _body_shape_index: int
 			if is_immortal == false:
 				hide()
 				hit.emit()
-				$CollisionShape2D.set_deferred("disabled", true)
+				_collision_shape.set_deferred("disabled", true)
