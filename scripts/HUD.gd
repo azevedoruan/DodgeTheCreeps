@@ -8,6 +8,7 @@ signal start_game
 @onready var developer_control: Control = $DeveloperControl
 @onready var statistics = $Pivot/DebugLog/Statistics
 @onready var time_label = $Pivot/TimeLabel
+@onready var version_label = $Pivot/version
 
 
 func _ready():
@@ -15,6 +16,8 @@ func _ready():
 	var screen_size = Vector2(DisplayServer.screen_get_size())
 	var safe_area_size = Vector2(DisplayServer.get_display_safe_area().size)
 	var safe_area_pos = Vector2(DisplayServer.get_display_safe_area().position)
+	
+	version_label.text = ProjectSettings.get_setting("application/config/version")
 	
 	# calcula a posição e tamanho do HUD proporcionalmente ao tamanho da tela do
 	# dispositivo levando em consideração a safe area (area sem sobreposição do "notch")

@@ -37,7 +37,7 @@ func _process(delta):
 		if is_time_scaled == false:
 			time_scale(true)
 		else:
-			time_scale(false)	
+			time_scale(false)
 
 
 #TEST for dev configurations
@@ -153,8 +153,20 @@ func _on_special_mobs_timer_timeout() -> void:
 	if (special_mob_count % 10) == 0 and time > 60:
 		mob_spawner.spawn_mob_follower(MobPositionServiceNode.get_vertical_random_position(), player)
 	
+	# mob obstacle aumentado de tamanho a partir da versão 1.3.7
+	# adaptação da posição de spawn para o mob não "brotar" na tela espontâneamente
 	if (special_mob_count % 8) == 0 and time > 90:
-		mob_spawner.spawn_mob_obstacle(MobPositionServiceNode.get_horizontal_random_position())
+		var side: String = ""
+		var pos: Positions
+		if randf() < 0.5:
+			side = "left"
+			pos = MobPositionServiceNode.get_horizontal_positions(side, GameplayContainerServiceNode.get_top_left_corner().y + 100.0)
+			pos.mob_position.x -= 110.0
+		else:
+			side = "rigth"
+			pos = MobPositionServiceNode.get_horizontal_positions(side, GameplayContainerServiceNode.get_bottom_rigth_corner().y - 100.0)
+			pos.mob_position.x += 110.0
+		mob_spawner.spawn_mob_obstacle(pos)
 	
 	if (special_mob_count % 14) == 0 and time > 125:
 		mob_spawner.spawn_mob_explode(MobPositionServiceNode.get_horizontal_random_position())
