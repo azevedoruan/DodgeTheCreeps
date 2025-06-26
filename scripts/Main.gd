@@ -6,17 +6,22 @@ extends Node
 @onready var mobs_event_handler: MobsEventHandler = $MobsEventHandler
 @onready var hud: Hud = $HUD
 @onready var mob_timer: Timer = $MobTimer
+@onready var timer: Timer = $Timer
 @onready var special_mobs_timer: Timer = $SpecialMobsTimer
 @onready var event_timer: Timer = $EventTimer
 @onready var start_position: Marker2D = $Container/StartPosition
 @onready var bubble_handler: BubbleHandler = $Container/BubbleHandler
+@onready var music_player: AudioStreamPlayer = $Music
 
 var mob_timer_decrementer: int = 20
 var time_on: bool
 var time: float
 var score: int = 0
+var best: int = 0 #TODO save local device
+var bubble_count: int = 0
 var special_mob_count: int = 0
 var event_count: int = 0
+var is_on_computer: bool = false
 
 #TEST for dev configurations
 var is_time_scaled: bool = false
@@ -26,12 +31,13 @@ func _ready() -> void:
 	mobs_event_handler.end_event_handler.connect(_on_mobs_event_end)
 	GameplayContainerServiceNode.init_container_position()
 	MobPositionServiceNode.init_positions()
+	hud.pause_game.connect(_on_pause_game)
 
 
 func _process(delta):
 	if time_on:
 		time += delta
-		hud.update_time(time)
+		#hud.update_time(time)
 	
 	if Input.is_action_just_pressed("time_scale"):
 		if is_time_scaled == false:
@@ -52,16 +58,22 @@ func time_scale(toggle: bool) -> void:
 
 
 func on_bubble_collected() -> void:
+	bubble_count += 1
+	#hud.update_score(score)
+
+
+func _on_timer_timeout():
 	score += 1
 	hud.update_score(score)
 
 
 func _game_over() -> void:
+	timer.stop()
 	mob_timer.stop()
 	special_mobs_timer.stop()
 	event_timer.stop()
 	time_on = false
-	hud.show_game_over()
+	hud.show_game_over(score, _calculate_best())
 	$Music.stop()
 	$DeathSound.play()
 
@@ -78,12 +90,30 @@ func new_game():
 	player.start(start_position.position)
 	$StartTimer.start()
 	hud.update_score(score)
-	hud.update_time(time)
+	#hud.update_time(time)
 	hud.show_message("Get Ready")
 	$Music.play()
 	MyUtility.print_message_log("Game Started!")
 	bubble_handler.reset_bubbles()
 	mobs_event_handler.restart_events()
+
+
+func _calculate_best() -> int:
+	if score > best:
+		best = score
+		#TODO save best local device
+	return best
+
+
+func _on_pause_game(paused: bool) -> void:
+	timer.set_paused(paused)
+	mob_timer.set_paused(paused)
+	special_mobs_timer.set_paused(paused)
+	event_timer.set_paused(paused)
+	time_on = !paused
+	music_player.set_stream_paused(paused)
+	get_tree().set_pause(paused)
+
 
 #TEST for dev configurations
 func fire_event_test(index: int) -> void:
@@ -97,6 +127,7 @@ func activate_rect_lines_debug() -> void:
 
 
 func _on_start_timer_timeout():
+	timer.start(1)
 	mob_timer.start()
 	special_mobs_timer.start()
 	event_timer.start()

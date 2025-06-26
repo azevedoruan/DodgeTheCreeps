@@ -1,5 +1,5 @@
-extends Node
 class_name JoyStickHandler
+extends Node
 
 @export var joy_stick: PackedScene
 
@@ -15,6 +15,9 @@ const JOYSTICK_DISTANCE_LIMIT_RADIUS: float = 65.0
 
 
 func _ready():
+	if MyUtility.is_on_computer:
+		queue_free()
+	
 	# desabilita os processos de input (esses eventos só devem ser habilitados quando o gameplay iniciar)
 	set_process_input(false)
 	

@@ -11,24 +11,17 @@ signal hit
 
 #TODO calcular limites da área de gameplay por meio do GameplayContainerService
 var _screen_size: Vector2
-var _is_on_computer: bool
 
 const SPEED: float = 185
 
 
 func _ready():
 	_screen_size = get_viewport_rect().size
-	
-	var os_name: String = OS.get_name()
-	if os_name == "Android" || os_name == "iOS":
-		_is_on_computer = false
-	else:
-		_is_on_computer = true
 
 
 func _process(delta):
 	var velocity: Vector2 = Vector2.ZERO
-	if _is_on_computer:
+	if MyUtility.is_on_computer:
 		velocity = _move_by_keyboard()
 	else:
 		velocity = joystick_handler.direction

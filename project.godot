@@ -31,6 +31,10 @@ window/stretch/aspect="expand"
 window/handheld/orientation=1
 window/vsync/vsync_mode=0
 
+[gui]
+
+common/snap_controls_to_pixels=false
+
 [input]
 
 move_right={
