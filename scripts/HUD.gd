@@ -4,43 +4,37 @@ class_name Hud
 signal start_game
 signal pause_game(paused: bool)
 
-@onready var hud_pivot = $Pivot
-@onready var game_over: Control = $Pivot/GameOver
-@onready var pause: Control = $Pivot/Pause
-@onready var debug_log: Control = $Pivot/DebugLog
-@onready var developer_control: Control = $DeveloperControl
+#TEST for dev configurations
 @onready var statistics = $Pivot/DebugLog/Statistics
-@onready var score_label: Label = $Pivot/ScoreLabel
-@onready var version_label = $Pivot/version
-@onready var message: Label = $Pivot/Message
-@onready var start_button = $Pivot/ButtonStart
-@onready var pause_button = $Pivot/ButtonPause
 
 
 func _ready():
+	_init_pivot_setup()
+	_print_statistics()
+	$Pivot/Menu.show()
+	$Pivot/Gameplay.hide()
+	$Pivot/GameOver.disappears()
+	$Pivot/GameOver.hide()
+	$Pivot/Menu/version.text = ProjectSettings.get_setting("application/config/version")
+	
+
+# calcula a posição e tamanho do HUD proporcionalmente ao tamanho da tela do
+# dispositivo levando em consideração a safe area (area sem sobreposição do "notch")
+func _init_pivot_setup() -> void:
 	var hud_size = Vector2(get_tree().root.content_scale_size)
 	var screen_size = Vector2(DisplayServer.screen_get_size())
 	var safe_area_size = Vector2(DisplayServer.get_display_safe_area().size)
 	var safe_area_pos = Vector2(DisplayServer.get_display_safe_area().position)
-	
-	# calcula a posição e tamanho do HUD proporcionalmente ao tamanho da tela do
-	# dispositivo levando em consideração a safe area (area sem sobreposição do "notch")
 	var new_hud_pos = (safe_area_pos / screen_size) * hud_size
 	var new_hud_size = (safe_area_size * hud_size) / screen_size
-	
-	hud_pivot.set_position(new_hud_pos)
-	hud_pivot.set_size(new_hud_size)
-	
-	version_label.text = ProjectSettings.get_setting("application/config/version")
-	score_label.hide()
-	game_over.show()
-	message.show()
-	pause_button.hide()
-	pause.hide()
-	
-	#TEST for dev configurations
-	debug_log.hide()
-	developer_control.hide()
+	$Pivot.set_position(new_hud_pos)
+	$Pivot.set_size(new_hud_size)
+
+
+#TEST for dev configurations
+func _print_statistics() -> void:
+	$Pivot/DebugLog.hide()
+	$DeveloperControl.hide()
 	MyUtility.print_message_log("root size: " + str(get_tree().root.size))
 	MyUtility.print_message_log("viewport size: " + str(get_viewport().size))
 	MyUtility.print_message_log("window size: " + str(get_window().size))
@@ -57,73 +51,56 @@ func _process(_delta):
 	var player_pos: Vector2 = get_parent().player.position
 	statistics.add_text("player pos: %.1f, %.1f\n" % [player_pos.x, player_pos.y])
 
-
-func show_message(text: String, time: float = 2.0):
-	print("cade o get ready carai?")
-	message.set_text(text)
-	message.show()
+# TODO mudar o chamador
+func show_start_message(text: String, time: float = 2.0):
+	var msg: RichTextLabel = $Pivot/Gameplay/MessageStart
+	msg.set_text("[center][shake rate=20.0 level=5 connected=1] %s [/shake][/center]" % text)
+	msg.show()
 	await get_tree().create_timer(time).timeout
-	message.hide()
+	msg.hide()
 
 
-func show_game_over(score: int, best: int):
-	#message.set_self_modulate(Color(0.867, 0.306, 0.329))
-	#message.set_text("Game Over")
-	#message.show()
-	#
-	## código preguiçoso a seguir
-	#var t: Tween = get_tree().create_tween()
-	#t.tween_interval(1.0)
-	#t.tween_property(message, "position", Vector2(0, 200), 0.25)
-	#t.tween_callback(func(): score_panel.show()).set_delay(0.25)
-	#t.tween_interval(1.0)
-	score_label.hide()
-	pause_button.hide()
-	await game_over.appears(score, best)
-	start_button.show()
-
-
-#func update_time(time: float) -> void:
-	#var mil: float = fmod(time, 1) * 1000
-	#var sec: float = fmod(time, 60)
-	#var _min: float = fmod(time, 60*60) / 60
-	#var time_str: String = "%02d:%02d:%03d" % [_min, sec, mil]
-	#time_label.text = time_str
+func show_game_over(score: int):
+	$Pivot/Gameplay.hide()
+	$Pivot/GameOver.show()
+	await $Pivot/GameOver.appears(score)
+	$Pivot/GameOver.disappears()
+	$Pivot/GameOver.hide()
+	$Pivot/Menu.show()
 
 
 func update_score(score):
-	score_label.text = str(score)
+	$Pivot/Gameplay/ScoreLabel.text = str(score)
 
 
 func _on_start_button_start_game():
-	score_label.show()
-	game_over.disappears()
-	start_button.hide()
-	pause_button.show()
+	$Pivot/GameOver.disappears()
+	$Pivot/Menu.hide()
+	$Pivot/Gameplay.show()
 	start_game.emit()
 
 
 func _on_button_pause():
-	pause.show()
-	pause_button.hide()
+	$Pivot/Gameplay.hide()
+	$Pivot/Pause.show()
 	pause_game.emit(true)
 
 
 func _on_button_resume():
-	pause.hide()
-	pause_button.show()
+	$Pivot/Gameplay.show()
+	$Pivot/Pause.hide()
 	pause_game.emit(false)
 
 
 #TEST for dev configurations
 func _on_stats_button_down():
-	if !debug_log.visible:
-		debug_log.show()
-		developer_control.show()
+	if !$Pivot/DebugLog.visible:
+		$Pivot/DebugLog.show()
+		$DeveloperControl.show()
 		set_process(true)
 	else:
-		debug_log.hide()
-		developer_control.hide()
+		$Pivot/DebugLog.hide()
+		$DeveloperControl.hide()
 		set_process(false)
 
 #TEST for dev configurations

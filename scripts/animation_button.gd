@@ -2,9 +2,9 @@
 # Pelo Mostly Mad Productions
 
 class_name AnimationButton
-extends Button
+extends TextureButton
 
-signal start_game
+signal pressed_signal
 
 @export var hover_scale: Vector2 = Vector2(1.1, 1.1)
 @export var pressed_scale: Vector2 = Vector2(0.9, 0.9)
@@ -36,7 +36,7 @@ func _button_pressed() -> void:
 	var t: Tween = create_tween()
 	t.tween_property(self, "scale", pressed_scale, 0.03).set_trans(Tween.TRANS_SINE)
 	t.tween_property(self, "scale", hover_scale, 0.06).set_trans(Tween.TRANS_SINE)
-	t.tween_callback(func(): start_game.emit())
+	t.tween_callback(func(): pressed_signal.emit())
 
 
 func _reset_scale() -> void:

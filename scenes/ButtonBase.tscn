@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1ecwot5rlloq"]
+
+[ext_resource type="Texture2D" uid="uid://cfftthudjlcxh" path="res://art/AnalogStick_small.png" id="1_of14o"]
+[ext_resource type="Script" path="res://scripts/animation_button.gd" id="1_tkdoi"]
+
+[node name="ButtonBase" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 157.0
+offset_top = 258.0
+offset_right = 227.0
+offset_bottom = 328.0
+
+[node name="ButtonHit" type="TextureButton" parent="."]
+z_index = 55
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+texture_normal = ExtResource("1_of14o")
+stretch_mode = 3
+script = ExtResource("1_tkdoi")
+
+[node name="ButtonShadow" type="TextureRect" parent="ButtonHit"]
+self_modulate = Color(0, 0, 0, 0.490196)
+z_index = 54
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_of14o")

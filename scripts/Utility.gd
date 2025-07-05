@@ -38,3 +38,18 @@ func _set_platform_variables() -> void:
 		is_on_ios = false
 	
 	print("Utility Initialized")
+
+
+func save_variable(content: String) -> void:
+	var file = FileAccess.open("user://save_game.dat", FileAccess.WRITE)
+	file.store_pascal_string(content)
+	print("Game saved successfull")
+
+
+func load_variable() -> String:
+	var file = FileAccess.open("user://save_game.dat", FileAccess.READ)
+	if file != null:
+		return file.get_pascal_string()
+	
+	print("No data saved...")
+	return "0"

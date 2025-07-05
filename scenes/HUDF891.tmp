@@ -1,47 +1,35 @@
-[gd_scene load_steps=12 format=3 uid="uid://dle44wdvem7or"]
+[gd_scene load_steps=14 format=3 uid="uid://dle44wdvem7or"]
 
 [ext_resource type="FontFile" uid="uid://d3i0ap6awinyo" path="res://fonts/Xolonium-Regular.ttf" id="1_2b1r3"]
 [ext_resource type="Script" path="res://scripts/HUD.gd" id="1_m3o12"]
 [ext_resource type="Script" path="res://scripts/GameOverHud.gd" id="3_r2vgg"]
 [ext_resource type="FontFile" uid="uid://b60gaa1uqujdk" path="res://fonts/BubbleGum-Regular.ttf" id="3_tmrtc"]
-[ext_resource type="Texture2D" uid="uid://cfftthudjlcxh" path="res://art/AnalogStick_small.png" id="4_l2nmu"]
-[ext_resource type="PackedScene" uid="uid://d1ecwot5rlloq" path="res://scenes/ButtonBase.tscn" id="6_7vy3k"]
+[ext_resource type="Texture2D" uid="uid://c15wcmssgyvgn" path="res://art/button_ui.png" id="4_m4jel"]
+[ext_resource type="Script" path="res://scripts/animation_button.gd" id="5_0avv7"]
+[ext_resource type="Texture2D" uid="uid://4kvmofi580es" path="res://art/button_ui_outline.png" id="7_41pew"]
 
-[sub_resource type="Curve" id="Curve_mjsaq"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.502564, 0.494587), 2.3866, 2.3866, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+[sub_resource type="Curve" id="Curve_mt4w6"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.5, 0.488189), 1.89021, 1.89021, 0, 0, Vector2(1, 0.993602), 0.0, 0.0, 0, 0]
 point_count = 3
-
-[sub_resource type="Curve" id="Curve_pkeog"]
-_data = [Vector2(0, 1), 0.0, -0.270113, 0, 0, Vector2(1, 0.347098), -2.83203, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_pivkq"]
-curve = SubResource("Curve_pkeog")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wnmfs"]
-particle_flag_align_y = true
-particle_flag_disable_z = true
-emission_shape_offset = Vector3(-1.75, 0, 0)
-emission_shape = 3
-emission_box_extents = Vector3(32, 1, 1)
-direction = Vector3(0, 1, 0)
-spread = 180.0
-flatness = 1.0
-initial_velocity_min = 270.0
-initial_velocity_max = 280.0
-gravity = Vector3(0, 0, 0)
-attractor_interaction_enabled = false
-scale_min = 0.13
-scale_max = 0.15
-scale_curve = SubResource("CurveTexture_pivkq")
-color = Color(1, 0.882353, 0.478431, 1)
-turbulence_noise_strength = 12.9
-turbulence_noise_scale = 2.487
-turbulence_influence_min = 0.68
-turbulence_influence_max = 0.721
 
 [sub_resource type="LabelSettings" id="LabelSettings_mwl3n"]
 font_size = 10
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cxh1o"]
+atlas = ExtResource("7_41pew")
+region = Rect2(2, 4, 106, 106)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kt6mf"]
+atlas = ExtResource("4_m4jel")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pu30g"]
+atlas = ExtResource("7_41pew")
+region = Rect2(192, 3, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n6x00"]
+atlas = ExtResource("4_m4jel")
+region = Rect2(198, 0, 58, 58)
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_m3o12")
@@ -54,65 +42,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Menu" type="Control" parent="Pivot"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Title" type="Label" parent="Pivot/Menu"]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -67.0
-offset_bottom = 67.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.490196)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = 4
-theme_override_constants/shadow_outline_size = 15
-theme_override_fonts/font = ExtResource("3_tmrtc")
-theme_override_font_sizes/font_size = 64
-text = "Dodge the Creeps!"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
-
-[node name="version" type="Label" parent="Pivot/Menu"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -57.0
-offset_top = -23.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "version"
-
-[node name="ButtonStart2" parent="Pivot/Menu" instance=ExtResource("6_7vy3k")]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -202.5
-offset_top = -360.0
-offset_right = -132.5
-offset_bottom = -290.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1.4, 1.4)
-
-[node name="Gameplay" type="Control" parent="Pivot"]
+[node name="ColorRect" type="ColorRect" parent="Pivot"]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -120,8 +50,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0, 0, 0, 0.352941)
 
-[node name="ScoreLabel" type="Label" parent="Pivot/Gameplay"]
+[node name="ScoreLabel" type="Label" parent="Pivot"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -140,43 +71,43 @@ text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MessageStart" type="RichTextLabel" parent="Pivot/Gameplay"]
+[node name="Message" type="Label" parent="Pivot"]
+visible = false
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_top = -34.0
-offset_bottom = 46.0
+offset_top = -55.0
+offset_bottom = 55.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.490196)
-theme_override_constants/shadow_offset_x = 3
-theme_override_constants/shadow_offset_y = 3
-theme_override_fonts/normal_font = ExtResource("3_tmrtc")
-theme_override_font_sizes/normal_font_size = 64
-bbcode_enabled = true
-text = "[center]Get Ready![/center]"
-scroll_active = false
-autowrap_mode = 0
-shortcut_keys_enabled = false
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/shadow_outline_size = 15
+theme_override_fonts/font = ExtResource("3_tmrtc")
+theme_override_font_sizes/font_size = 64
+text = "Dodge the Creeps!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
-[node name="StatsButton" type="Button" parent="Pivot/Gameplay"]
+[node name="version" type="Label" parent="Pivot"]
 layout_mode = 1
-anchors_preset = 1
+anchors_preset = 3
 anchor_left = 1.0
+anchor_top = 1.0
 anchor_right = 1.0
-offset_left = -45.0
-offset_top = 13.0
-offset_right = -13.0
-offset_bottom = 37.0
+anchor_bottom = 1.0
+offset_left = -57.0
+offset_top = -23.0
 grow_horizontal = 0
-focus_mode = 0
-theme_override_font_sizes/font_size = 10
-text = "stats"
+grow_vertical = 0
+text = "version"
 
 [node name="GameOver" type="Control" parent="Pivot"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -184,7 +115,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_r2vgg")
-decrement_time_score_count = SubResource("Curve_mjsaq")
+decrement_time_score_count = SubResource("Curve_mt4w6")
 
 [node name="GameOverMessage" type="Label" parent="Pivot/GameOver"]
 layout_mode = 1
@@ -215,9 +146,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -104.5
-offset_top = -10.0
+offset_top = -32.0
 offset_right = 103.5
-offset_bottom = 102.0
+offset_bottom = 52.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -231,6 +162,22 @@ theme_override_constants/shadow_offset_y = 3
 theme_override_fonts/font = ExtResource("3_tmrtc")
 theme_override_font_sizes/font_size = 54
 text = "Score:"
+
+[node name="BestText" type="Label" parent="Pivot/GameOver/ScorePanel"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -41.0
+offset_right = 108.0
+grow_vertical = 0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.486275)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_fonts/font = ExtResource("3_tmrtc")
+theme_override_font_sizes/font_size = 54
+text = "Best:
+"
 
 [node name="ScoreLabel" type="Label" parent="Pivot/GameOver/ScorePanel"]
 layout_mode = 1
@@ -250,24 +197,6 @@ text = "999"
 horizontal_alignment = 2
 text_direction = 2
 
-[node name="BestText" type="Label" parent="Pivot/GameOver/ScorePanel"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = -69.0
-offset_right = 128.0
-offset_bottom = -28.0
-grow_vertical = 0
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.486275)
-theme_override_constants/shadow_offset_x = 3
-theme_override_constants/shadow_offset_y = 3
-theme_override_fonts/font = ExtResource("3_tmrtc")
-theme_override_font_sizes/font_size = 54
-text = "Best:
-"
-
 [node name="BestLabel" type="Label" parent="Pivot/GameOver/ScorePanel"]
 layout_mode = 1
 anchors_preset = 3
@@ -276,8 +205,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -75.0
-offset_top = -69.0
-offset_bottom = -28.0
+offset_top = -41.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_colors/font_color = Color(1, 0.780392, 0.270588, 1)
@@ -289,41 +217,6 @@ theme_override_font_sizes/font_size = 54
 text = "999"
 horizontal_alignment = 2
 text_direction = 2
-
-[node name="NewText" type="RichTextLabel" parent="Pivot/GameOver/ScorePanel"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 6.0
-offset_top = -65.0
-offset_right = 85.0
-offset_bottom = -29.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_colors/default_color = Color(1, 0.768627, 0.215686, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.490196)
-theme_override_fonts/normal_font = ExtResource("3_tmrtc")
-theme_override_font_sizes/normal_font_size = 42
-bbcode_enabled = true
-text = "[shake]new"
-fit_content = true
-scroll_active = false
-shortcut_keys_enabled = false
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="Pivot/GameOver/ScorePanel"]
-z_index = 1
-position = Vector2(243, 62)
-emitting = false
-amount = 18
-process_material = SubResource("ParticleProcessMaterial_wnmfs")
-texture = ExtResource("4_l2nmu")
-lifetime = 0.5
-one_shot = true
-speed_scale = 1.3
-explosiveness = 0.75
 
 [node name="DebugLog" type="Control" parent="Pivot" groups=["debug_console"]]
 visible = false
@@ -396,6 +289,122 @@ theme_override_font_sizes/font_size = 64
 text = "Paused"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ButtonResume" type="Button" parent="Pivot/Pause"]
+process_mode = 3
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -48.0
+offset_top = -182.0
+offset_right = 48.0
+offset_bottom = -86.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 0
+icon = SubResource("AtlasTexture_cxh1o")
+flat = true
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("5_0avv7")
+
+[node name="TextureRect" type="TextureRect" parent="Pivot/Pause/ButtonResume"]
+self_modulate = Color(0, 0, 0, 0.490196)
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_kt6mf")
+stretch_mode = 5
+
+[node name="StatsButton" type="Button" parent="Pivot"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -45.0
+offset_top = 13.0
+offset_right = -13.0
+offset_bottom = 37.0
+grow_horizontal = 0
+focus_mode = 0
+theme_override_font_sizes/font_size = 10
+text = "stats"
+
+[node name="ButtonStart" type="Button" parent="Pivot"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -48.0
+offset_top = -182.0
+offset_right = 48.0
+offset_bottom = -86.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 0
+icon = SubResource("AtlasTexture_cxh1o")
+flat = true
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("5_0avv7")
+
+[node name="TextureRect" type="TextureRect" parent="Pivot/ButtonStart"]
+self_modulate = Color(0, 0, 0, 0.490196)
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_kt6mf")
+stretch_mode = 5
+
+[node name="ButtonPause" type="Control" parent="Pivot"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = -60.0
+offset_right = 71.0
+offset_bottom = 6.0
+grow_vertical = 0
+scale = Vector2(0.8, 0.8)
+
+[node name="ButtonPauseIcon" type="Button" parent="Pivot/ButtonPause"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+theme_override_constants/outline_size = 20
+icon = SubResource("AtlasTexture_pu30g")
+flat = true
+script = ExtResource("5_0avv7")
+metadata/_edit_lock_ = true
+
+[node name="TextureRect" type="TextureRect" parent="Pivot/ButtonPause/ButtonPauseIcon"]
+self_modulate = Color(0, 0, 0, 0.490196)
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_n6x00")
 
 [node name="DeveloperControl" type="Control" parent="."]
 visible = false
@@ -503,7 +512,10 @@ offset_bottom = 82.0
 focus_mode = 0
 text = "6"
 
-[connection signal="button_down" from="Pivot/Gameplay/StatsButton" to="." method="_on_stats_button_down"]
+[connection signal="start_game" from="Pivot/Pause/ButtonResume" to="." method="_on_button_resume"]
+[connection signal="button_down" from="Pivot/StatsButton" to="." method="_on_stats_button_down"]
+[connection signal="start_game" from="Pivot/ButtonStart" to="." method="_on_start_button_start_game"]
+[connection signal="start_game" from="Pivot/ButtonPause/ButtonPauseIcon" to="." method="_on_button_pause"]
 [connection signal="toggled" from="DeveloperControl/ImortalModeButton" to="." method="_on_imortal_mode_button_toggled"]
 [connection signal="toggled" from="DeveloperControl/TimeAccelerateButton" to="." method="_on_time_accelerate_button_toggled"]
 [connection signal="pressed" from="DeveloperControl/DrawLineDebugButton" to="." method="_on_draw_line_debug_button_pressed"]
@@ -513,5 +525,3 @@ text = "6"
 [connection signal="pressed" from="DeveloperControl/Event1Button4" to="." method="_on_event_1_button_4_pressed"]
 [connection signal="pressed" from="DeveloperControl/Event1Button5" to="." method="_on_event_1_button_5_pressed"]
 [connection signal="pressed" from="DeveloperControl/Event1Button6" to="." method="_on_event_1_button_6_pressed"]
-
-[editable path="Pivot/Menu/ButtonStart2"]

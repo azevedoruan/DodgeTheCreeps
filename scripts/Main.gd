@@ -73,8 +73,8 @@ func _game_over() -> void:
 	special_mobs_timer.stop()
 	event_timer.stop()
 	time_on = false
-	hud.show_game_over(score, _calculate_best())
-	$Music.stop()
+	hud.show_game_over(score)
+	#$Music.stop()
 	$DeathSound.play()
 
 
@@ -91,18 +91,11 @@ func new_game():
 	$StartTimer.start()
 	hud.update_score(score)
 	#hud.update_time(time)
-	hud.show_message("Get Ready")
-	$Music.play()
+	hud.show_start_message("Get Ready!")
+	#$Music.play()
 	MyUtility.print_message_log("Game Started!")
 	bubble_handler.reset_bubbles()
 	mobs_event_handler.restart_events()
-
-
-func _calculate_best() -> int:
-	if score > best:
-		best = score
-		#TODO save best local device
-	return best
 
 
 func _on_pause_game(paused: bool) -> void:

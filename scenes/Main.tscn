@@ -160,7 +160,6 @@ mob_explode = ExtResource("8_n05so")
 
 [node name="MobsEventHandler" type="Node" parent="."]
 script = ExtResource("12_urh7m")
-initial_event_count = 3
 events = Array[Resource("res://scripts/resources/mobEventAbstract.gd")]([ExtResource("11_em6as"), ExtResource("12_4dtth"), ExtResource("14_1epfv"), ExtResource("13_q2wx6"), ExtResource("15_nl8hl"), ExtResource("19_2ml6s")])
 
 [node name="JoyStickHandler" type="Node" parent="."]
